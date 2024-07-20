@@ -54,3 +54,9 @@ export type TemplateLayout =
   | "HEADER_PRIMARY_SECONDARY"
   | "HEADER_SECONDARY_PRIMARY"
   | "SPLIT";
+
+export type BlockListKey =
+  | "headerBlockList"
+  | "primaryBlockList"
+  | "secondaryBlockList"
+  | "selectionBlockList";

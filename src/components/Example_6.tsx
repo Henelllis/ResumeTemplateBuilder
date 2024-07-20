@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Item, TemplateLayout } from "../types";
+import { BlockListKey, Item, TemplateLayout } from "../types";
 import {
   DragDropContext,
   Draggable,
@@ -9,33 +9,28 @@ import {
 import "./ShowPlaceHolderDocument.css";
 import { BlockContext } from "../store/blockContext";
 
-const initialItems: Item[] = [
-  { id: "1", content: "Contact Info" },
-  { id: "2", content: "Name" },
-  { id: "3", content: "Education" },
-  { id: "4", content: "Skills" },
-  { id: "5", content: "Experience" },
-  { id: "6", content: "Description" },
-  { id: "7", content: "Certifications" },
-  { id: "8", content: "References" },
-];
-
-const headerList: Item[] = [
-  { id: "1", content: "Contact Info" },
-  { id: "2", content: "Name" },
-];
-
 const Example_6: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
   const { blocks, setBlocks } = useContext(BlockContext);
 
-  const [lists, setLists] = useState<{ [key: string]: Item[] }>({
-    list1: [],
-    list2: [],
-    list3: initialItems,
-    list4: [],
-  });
-
   const [dpi, setDpi] = useState(96); // Default DPI
+
+  useEffect(() => {
+    setBlocks({
+      headerBlockList: [],
+      primaryBlockList: [],
+      secondaryBlockList: [],
+      selectionBlockList: [
+        { id: "1", content: "Contact Info" },
+        { id: "2", content: "Name" },
+        { id: "3", content: "Education" },
+        { id: "4", content: "Skills" },
+        { id: "5", content: "Experience" },
+        { id: "6", content: "Description" },
+        { id: "7", content: "Certifications" },
+        { id: "8", content: "References" },
+      ],
+    });
+  }, []);
 
   useEffect(() => {
     const estimateDPI = () => {
@@ -92,33 +87,54 @@ const Example_6: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
       return;
     }
 
-    const sourceList = getListById(source.droppableId as BlockListKey);
-    const destinationList = getListById(
-      destination.droppableId as BlockListKey
+    // Function to get list by droppable ID
+    const getListById = (id: BlockListKey): Item[] => {
+      return blocks[id] || [];
+    };
+
+    // Get source and destination lists
+    const sourceList = Array.from(
+      getListById(source.droppableId as BlockListKey)
+    );
+    const destinationList = Array.from(
+      getListById(destination.droppableId as BlockListKey)
     );
 
-    const [movedItem] = sourceList.splice(source.index, 1);
-    destinationList.splice(destination.index, 0, movedItem);
-
-    setListById(source.droppableId as BlockListKey, sourceList);
-
-    setListById(destination.droppableId as BlockListKey, destinationList);
+    // Move item within the same list
+    if (source.droppableId === destination.droppableId) {
+      const [movedItem] = sourceList.splice(source.index, 1);
+      sourceList.splice(destination.index, 0, movedItem);
+      setBlocks({
+        ...blocks,
+        [source.droppableId]: sourceList,
+      });
+    } else {
+      // Move item to different list
+      const [movedItem] = sourceList.splice(source.index, 1);
+      destinationList.splice(destination.index, 0, movedItem);
+      setBlocks({
+        ...blocks,
+        [source.droppableId]: sourceList,
+        [destination.droppableId]: destinationList,
+      });
+    }
   };
 
-  type BlockListKey =
-    | "headerBlockList"
-    | "primaryBlockList"
-    | "secondaryBlockList"
-    | "selectionBlockList";
-
-  const getListById = (id: BlockListKey): Item[] => {
-    return blocks[id] || [];
-  };
-
-  const setListById = (id: BlockListKey, items: Item[]) => {
+  const setBlockList = ({
+    sourceId,
+    destinationId,
+    sourceItems,
+    destinationItems,
+  }: {
+    sourceId: BlockListKey;
+    destinationId: BlockListKey;
+    sourceItems: Item[];
+    destinationItems: Item[];
+  }) => {
     setBlocks({
       ...blocks,
-      [id]: items,
+      [sourceId]: sourceItems,
+      [destinationId]: destinationItems,
     });
   };
 
@@ -153,7 +169,7 @@ const Example_6: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
                   }}
                 >
                   header
-                  {lists.list4.map((item, index) => (
+                  {blocks.headerBlockList.map((item, index) => (
                     <Draggable
                       key={item.id}
                       draggableId={item.id}
@@ -202,7 +218,7 @@ const Example_6: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
                   justifyContent: "space-between",
                 }}
               >
-                <Droppable droppableId={"list1"}>
+                <Droppable droppableId={"primaryBlockList"}>
                   {(provided) => (
                     <div
                       {...provided.droppableProps}
@@ -218,7 +234,7 @@ const Example_6: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
                       }}
                     >
                       Primary
-                      {lists.list1.map((item, index) => (
+                      {blocks.primaryBlockList.map((item, index) => (
                         <Draggable
                           key={item.id}
                           draggableId={item.id}
@@ -252,7 +268,7 @@ const Example_6: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
                     </div>
                   )}
                 </Droppable>
-                <Droppable droppableId={"list2"}>
+                <Droppable droppableId={"secondaryBlockList"}>
                   {(provided) => (
                     <div
                       {...provided.droppableProps}
@@ -272,7 +288,7 @@ const Example_6: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
                       }}
                     >
                       Secondary
-                      {lists.list2.map((item, index) => (
+                      {blocks.secondaryBlockList.map((item, index) => (
                         <Draggable
                           key={item.id}
                           draggableId={item.id}
@@ -324,7 +340,7 @@ const Example_6: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
             width: "50%",
           }}
         >
-          <Droppable droppableId={"list3"}>
+          <Droppable droppableId={"selectionBlockList"}>
             {(provided) => (
               <div
                 {...provided.droppableProps}
@@ -340,7 +356,7 @@ const Example_6: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
                   alignItems: "center",
                 }}
               >
-                {lists.list3.map((item, index) => (
+                {blocks.selectionBlockList.map((item, index) => (
                   <Draggable key={item.id} draggableId={item.id} index={index}>
                     {(provided) => (
                       <div

@@ -38,6 +38,7 @@ function BlockContextProvider({ children }: { children: any }) {
     secondaryBlockList: Array<Item>;
     selectionBlockList: Array<Item>;
   }): void {
+    console.log(args);
     setContextValue({
       blocks: {
         headerBlockList: args.headerBlockList,

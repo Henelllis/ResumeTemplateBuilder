@@ -11,6 +11,7 @@ import { BlockContext } from "../store/blockContext";
 import Container from "./Container";
 import DraggableList from "./DraggableList";
 import { inchesToPixels } from "../utils";
+import BlockTemplateResumePreview from "./BlockTemplateResumePreview";
 
 const Example_7: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
   const { blocks, blockRules, setBlocks } = useContext(BlockContext);
@@ -30,7 +31,8 @@ const Example_7: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
         { id: "5", content: BlockDescriptor.Experience },
         { id: "6", content: BlockDescriptor.Description },
         { id: "7", content: BlockDescriptor.Certifications },
-        { id: "8", content: BlockDescriptor.Certifications },
+        { id: "8", content: BlockDescriptor.References },
+        { id: "9", content: BlockDescriptor.Title },
       ],
     });
   }, []);
@@ -61,18 +63,6 @@ const Example_7: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
 
   const widthInInches = 8.27;
   const heightInInches = 11.69;
-
-  const headerHeightInInches = 2;
-  const bodyHeightInInches = heightInInches - headerHeightInInches;
-
-  const headerHeightInPixels = inchesToPixels(headerHeightInInches, dpi);
-  const bodyHeightInPixels = inchesToPixels(bodyHeightInInches, 80);
-
-  const primaryWidthInInches = widthInInches * 0.7;
-  const secondaryWidthInInches = widthInInches * 0.3;
-
-  const widthInPixels = inchesToPixels(widthInInches, 80);
-  const heightInPixels = inchesToPixels(heightInInches, 80);
 
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
@@ -138,75 +128,12 @@ const Example_7: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="app">
         <div className="document-container">
-          <Container
-            widthInPixels={widthInPixels}
-            heightInPixels={heightInPixels}
-            backgroundColor="red"
-          >
-            <Droppable droppableId={"headerBlockList"}>
-              {(provided) => (
-                <Container
-                  droppableProps={provided.droppableProps}
-                  droppableInnerRef={provided.innerRef}
-                  widthInPixels={widthInPixels}
-                  heightInPixels={headerHeightInPixels}
-                  backgroundColor="lightgrey"
-                >
-                  header
-                  <DraggableList blockList={blocks.headerBlockList} />
-                  {provided.placeholder}
-                </Container>
-              )}
-            </Droppable>
-
-            <div
-              style={{
-                width: `${widthInPixels}px`,
-                height: `${bodyHeightInPixels}px`,
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                }}
-              >
-                <Droppable droppableId={"primaryBlockList"}>
-                  {(provided) => (
-                    <Container
-                      droppableProps={provided.droppableProps}
-                      droppableInnerRef={provided.innerRef}
-                      widthInPixels={inchesToPixels(primaryWidthInInches, dpi)}
-                      heightInPixels={bodyHeightInPixels}
-                      backgroundColor="lightgreen"
-                    >
-                      Primary
-                      <DraggableList blockList={blocks.primaryBlockList} />
-                      {provided.placeholder}
-                    </Container>
-                  )}
-                </Droppable>
-                <Droppable droppableId={"secondaryBlockList"}>
-                  {(provided) => (
-                    <Container
-                      droppableProps={provided.droppableProps}
-                      droppableInnerRef={provided.innerRef}
-                      widthInPixels={inchesToPixels(
-                        secondaryWidthInInches,
-                        dpi
-                      )}
-                      heightInPixels={bodyHeightInPixels}
-                      backgroundColor="lightcoral"
-                    >
-                      Secondary
-                      <DraggableList blockList={blocks.secondaryBlockList} />
-                      {provided.placeholder}
-                    </Container>
-                  )}
-                </Droppable>
-              </div>
-            </div>
-          </Container>
+          <BlockTemplateResumePreview
+            widthInInches={widthInInches}
+            heightInInches={heightInInches}
+            dpi={dpi}
+            blocks={blocks}
+          />
         </div>
         <div
           style={{

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Item } from "../types";
+import { Item, TemplateLayout } from "../types";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { getListById, setListById } from "../utils";
 import DraggableArea from "./DraggableArea";
@@ -15,7 +15,7 @@ const initialItems: Item[] = [
   { id: "8", content: "References" },
 ];
 
-const Example_4: React.FC = () => {
+const Example_4: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
   const [lists, setLists] = useState<{ [key: string]: Item[] }>({
     list1: [],
     list2: [],
@@ -47,17 +47,70 @@ const Example_4: React.FC = () => {
     setListById(destination.droppableId, destinationList, lists, setLists);
   };
 
-  return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-evenly",
-          padding: "200px",
-          paddingTop: "50px",
-          // height: "100vh",
-        }}
-      >
+  function getLayout() {
+    if (
+      layout === "HEADER_PRIMARY" ||
+      layout === "HEADER_PRIMARY_SECONDARY" ||
+      layout === "HEADER_SECONDARY_PRIMARY"
+    ) {
+      let left_slot = null;
+      let right_slot = null;
+
+      if (layout === "HEADER_PRIMARY_SECONDARY" || "HEADER_PRIMARY") {
+        left_slot = (
+          <div style={{ flex: layout === "HEADER_PRIMARY" ? 1 : 2 }}>
+            <DraggableArea
+              droppableId="list1"
+              items={lists.list1}
+              isBody
+              isSelectList={false}
+              title="Primary"
+            />
+          </div>
+        );
+
+        if (layout === "HEADER_PRIMARY_SECONDARY") {
+          right_slot = (
+            <div style={{ flex: 1 }}>
+              <DraggableArea
+                droppableId="list2"
+                items={lists.list2}
+                isBody
+                isSelectList={false}
+                title="Secondary"
+              />
+            </div>
+          );
+        }
+      }
+
+      if (layout === "HEADER_SECONDARY_PRIMARY") {
+        left_slot = (
+          <div style={{ flex: 1 }}>
+            <DraggableArea
+              droppableId="list2"
+              items={lists.list2}
+              isBody
+              isSelectList={false}
+              title="Secondary"
+            />
+          </div>
+        );
+
+        right_slot = (
+          <div style={{ flex: 2 }}>
+            <DraggableArea
+              droppableId="list1"
+              items={lists.list1}
+              isBody
+              isSelectList={false}
+              title="Primary"
+            />
+          </div>
+        );
+      }
+
+      return (
         <div
           style={{
             display: "flex",
@@ -81,26 +134,62 @@ const Example_4: React.FC = () => {
               justifyContent: "center",
             }}
           >
-            <div style={{ flex: 2 }}>
-              <DraggableArea
-                droppableId="list1"
-                items={lists.list1}
-                isBody
-                isSelectList={false}
-                title="Primary"
-              />
-            </div>
-            <div style={{ flex: 1 }}>
-              <DraggableArea
-                droppableId="list2"
-                items={lists.list2}
-                isBody
-                isSelectList={false}
-                title="Secondary"
-              />
-            </div>
+            {left_slot}
+            {right_slot}
           </div>
         </div>
+      );
+    } else if (layout === "SPLIT") {
+      return (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            flex: 1,
+          }}
+        >
+          <div style={{ flex: 1 }}>
+            <DraggableArea
+              droppableId="list4"
+              items={lists.list4}
+              isBody={false}
+              isSelectList={false}
+              title="header"
+            />
+            <DraggableArea
+              droppableId="list1"
+              items={lists.list1}
+              isBody
+              isSelectList={false}
+              title="Primary"
+            />
+          </div>
+          <div style={{ flex: 1 }}>
+            <DraggableArea
+              droppableId="list2"
+              items={lists.list2}
+              isBody
+              isSelectList={false}
+              title="Secondary"
+            />
+          </div>
+        </div>
+      );
+    }
+  }
+
+  return (
+    <DragDropContext onDragEnd={onDragEnd}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-evenly",
+          padding: "200px",
+          paddingTop: "50px",
+          // height: "100vh",
+        }}
+      >
+        {getLayout()}
         <div
           style={{
             display: "flex",

@@ -5,27 +5,17 @@ import Example_1 from "./components/Example_1";
 import Example_2 from "./components/Example_2";
 import Example_3 from "./components/Example_3";
 import Example_4 from "./components/Example_4";
+import ShowPlaceHolderDocument from "./components/ShowPlaceHolderDocument";
 
 interface Item {
   id: string;
   content: string;
 }
 
-const initialItems: Item[] = [
-  { id: "1", content: "Item 1" },
-  { id: "2", content: "Item 2" },
-  { id: "3", content: "Item 3" },
-  { id: "4", content: "Item 4" },
-];
-
 function App() {
-  const [items, setItems] = useState<Item[]>(initialItems);
+  return <ShowPlaceHolderDocument />;
 
-  function handleOnDragEnd(result: any) {
-    console.log(result);
-  }
-
-  return <Example_4 />;
+  // return <Example_4 layout={"HEADER_PRIMARY_SECONDARY"} />;
 }
 
 export default App;

@@ -66,7 +66,7 @@ export type BlockListKey =
   | "selectionBlockList";
 
 export enum BlockDescriptor {
-  "ContactInfo" = "Contact Info",
+  "ContactInfo" = "ContactInfo",
   "Title" = "Title",
   "Name" = "Name",
   "Education" = "Education",
@@ -76,3 +76,5 @@ export enum BlockDescriptor {
   "Certifications" = "Certifications",
   "References" = "References",
 }
+
+export type TemplateBuilderMode = "BLOCK_PLACEMENT_EDIT" | "HTML_EDIT";

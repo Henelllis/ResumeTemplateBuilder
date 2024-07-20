@@ -1,29 +1,17 @@
-import React, { useState } from "react";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import "./App.css";
-import Example_1 from "./components/Example_1";
-import Example_2 from "./components/Example_2";
-import Example_3 from "./components/Example_3";
-import Example_4 from "./components/Example_4";
-import ShowPlaceHolderDocument from "./components/ShowPlaceHolderDocument";
-import Example_5 from "./components/Example_5";
-import BlockContextProvider from "./store/blockContext";
-import Example_6 from "./components/Example_6";
-import Example_7 from "./components/Example_7";
 
-interface Item {
-  id: string;
-  content: string;
-}
+import BlockContextProvider from "./store/blockContext";
+import Example_7 from "./components/Example_7";
+import TemplateBuilderContextProvider from "./store/TemplateBuilderContext";
 
 function App() {
   return (
     <BlockContextProvider>
-      <Example_7 layout="HEADER_PRIMARY" />;
+      <TemplateBuilderContextProvider>
+        <Example_7 layout="HEADER_PRIMARY" />;
+      </TemplateBuilderContextProvider>
     </BlockContextProvider>
   );
-
-  // return <Example_4 layout={"HEADER_PRIMARY_SECONDARY"} />;
 }
 
 export default App;

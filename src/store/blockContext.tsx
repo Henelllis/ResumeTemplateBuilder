@@ -94,7 +94,11 @@ function BlockContextProvider({ children }: { children: any }) {
         ],
       },
       secondaryBlockList: {
-        disallowList: [BlockDescriptor.Name, BlockDescriptor.Title],
+        disallowList: [
+          BlockDescriptor.Name,
+          BlockDescriptor.Title,
+          BlockDescriptor.Experience,
+        ],
       },
       selectionBlockList: {
         disallowList: [], // No disallowed blocks

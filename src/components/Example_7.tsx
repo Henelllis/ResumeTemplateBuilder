@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { BlockListKey, Item, TemplateLayout } from "../types";
+import { BlockDescriptor, BlockListKey, Item, TemplateLayout } from "../types";
 import {
   DragDropContext,
   Draggable,
@@ -9,9 +9,10 @@ import {
 import "./ShowPlaceHolderDocument.css";
 import { BlockContext } from "../store/blockContext";
 import Container from "./Container";
+import DraggableList from "./DraggableList";
 
 const Example_7: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
-  const { blocks, setBlocks } = useContext(BlockContext);
+  const { blocks, blockRules, setBlocks } = useContext(BlockContext);
 
   const [dpi, setDpi] = useState(96); // Default DPI
 
@@ -21,14 +22,14 @@ const Example_7: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
       primaryBlockList: [],
       secondaryBlockList: [],
       selectionBlockList: [
-        { id: "1", content: "Contact Info" },
-        { id: "2", content: "Name" },
-        { id: "3", content: "Education" },
-        { id: "4", content: "Skills" },
-        { id: "5", content: "Experience" },
-        { id: "6", content: "Description" },
-        { id: "7", content: "Certifications" },
-        { id: "8", content: "References" },
+        { id: "1", content: BlockDescriptor.Name },
+        { id: "2", content: BlockDescriptor.ContactInfo },
+        { id: "3", content: BlockDescriptor.Education },
+        { id: "4", content: BlockDescriptor.Skills },
+        { id: "5", content: BlockDescriptor.Experience },
+        { id: "6", content: BlockDescriptor.Description },
+        { id: "7", content: BlockDescriptor.Certifications },
+        { id: "8", content: BlockDescriptor.Certifications },
       ],
     });
   }, []);
@@ -77,7 +78,20 @@ const Example_7: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
 
+    console.log(JSON.stringify(source), JSON.stringify(destination));
+
     if (!destination) {
+      return;
+    }
+
+    const content = blocks[source.droppableId as BlockListKey][source.index]
+      .content as BlockDescriptor;
+
+    if (
+      blockRules[destination.droppableId as BlockListKey].disallowList.includes(
+        content
+      )
+    ) {
       return;
     }
 
@@ -121,24 +135,6 @@ const Example_7: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
     }
   };
 
-  const setBlockList = ({
-    sourceId,
-    destinationId,
-    sourceItems,
-    destinationItems,
-  }: {
-    sourceId: BlockListKey;
-    destinationId: BlockListKey;
-    sourceItems: Item[];
-    destinationItems: Item[];
-  }) => {
-    setBlocks({
-      ...blocks,
-      [sourceId]: sourceItems,
-      [destinationId]: destinationItems,
-    });
-  };
-
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="app">
@@ -158,36 +154,7 @@ const Example_7: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
                   backgroundColor="lightgrey"
                 >
                   header
-                  {blocks.headerBlockList.map((item, index) => (
-                    <Draggable
-                      key={item.id}
-                      draggableId={item.id}
-                      index={index}
-                    >
-                      {(provided) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          style={{
-                            userSelect: "none",
-                            padding: "16px",
-                            borderRadius: "10px",
-
-                            margin: "0 0 8px 0",
-                            width: "100px",
-                            textAlign: "center",
-                            //   minHeight: "25px",
-                            backgroundColor: "#456C86",
-                            color: "white",
-                            ...provided.draggableProps.style,
-                          }}
-                        >
-                          {item.content}
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
+                  <DraggableList blockList={blocks.headerBlockList} />
                   {provided.placeholder}
                 </Container>
               )}
@@ -215,36 +182,7 @@ const Example_7: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
                       backgroundColor="lightgreen"
                     >
                       Primary
-                      {blocks.primaryBlockList.map((item, index) => (
-                        <Draggable
-                          key={item.id}
-                          draggableId={item.id}
-                          index={index}
-                        >
-                          {(provided) => (
-                            <div
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              style={{
-                                userSelect: "none",
-                                padding: "16px",
-                                borderRadius: "10px",
-
-                                margin: "0 0 8px 0",
-                                width: "100px",
-                                textAlign: "center",
-                                //   minHeight: "25px",
-                                backgroundColor: "#456C86",
-                                color: "white",
-                                ...provided.draggableProps.style,
-                              }}
-                            >
-                              {item.content}
-                            </div>
-                          )}
-                        </Draggable>
-                      ))}
+                      <DraggableList blockList={blocks.primaryBlockList} />
                       {provided.placeholder}
                     </Container>
                   )}
@@ -262,36 +200,7 @@ const Example_7: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
                       backgroundColor="lightcoral"
                     >
                       Secondary
-                      {blocks.secondaryBlockList.map((item, index) => (
-                        <Draggable
-                          key={item.id}
-                          draggableId={item.id}
-                          index={index}
-                        >
-                          {(provided) => (
-                            <div
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              style={{
-                                userSelect: "none",
-                                padding: "16px",
-                                borderRadius: "10px",
-
-                                margin: "0 0 8px 0",
-                                width: "100px",
-                                textAlign: "center",
-                                //   minHeight: "25px",
-                                backgroundColor: "#456C86",
-                                color: "white",
-                                ...provided.draggableProps.style,
-                              }}
-                            >
-                              {item.content}
-                            </div>
-                          )}
-                        </Draggable>
-                      ))}
+                      <DraggableList blockList={blocks.secondaryBlockList} />
                       {provided.placeholder}
                     </Container>
                   )}
@@ -330,32 +239,7 @@ const Example_7: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
                   alignItems: "center",
                 }}
               >
-                {blocks.selectionBlockList.map((item, index) => (
-                  <Draggable key={item.id} draggableId={item.id} index={index}>
-                    {(provided) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        style={{
-                          userSelect: "none",
-                          padding: "16px",
-                          borderRadius: "10px",
-
-                          margin: "0 0 8px 0",
-                          width: "100px",
-                          textAlign: "center",
-                          //   minHeight: "25px",
-                          backgroundColor: "#456C86",
-                          color: "white",
-                          ...provided.draggableProps.style,
-                        }}
-                      >
-                        {item.content}
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
+                <DraggableList blockList={blocks.selectionBlockList} />
                 {provided.placeholder}
               </div>
             )}

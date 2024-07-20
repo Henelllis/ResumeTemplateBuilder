@@ -1,7 +1,11 @@
 export // Define an interface for the item type
 interface Item {
   id: string;
-  content: string;
+  content: BlockDescriptor;
+}
+
+export interface BlockRules {
+  disallowList: BlockDescriptor[];
 }
 
 export type Experience = {
@@ -60,3 +64,15 @@ export type BlockListKey =
   | "primaryBlockList"
   | "secondaryBlockList"
   | "selectionBlockList";
+
+export enum BlockDescriptor {
+  "ContactInfo" = "Contact Info",
+  "Title" = "Title",
+  "Name" = "Name",
+  "Education" = "Education",
+  "Skills" = "Skills",
+  "Experience" = "Experience",
+  "Description" = "Description",
+  "Certifications" = "Certifications",
+  "References" = "References",
+}

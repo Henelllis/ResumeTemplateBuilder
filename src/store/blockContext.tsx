@@ -1,5 +1,5 @@
 import { createContext, useState } from "react";
-import { Item } from "../types";
+import { BlockDescriptor, BlockRules, Item } from "../types";
 
 export interface BlockContextValue {
   blocks: {
@@ -7,6 +7,12 @@ export interface BlockContextValue {
     primaryBlockList: Array<Item>;
     secondaryBlockList: Array<Item>;
     selectionBlockList: Array<Item>;
+  };
+  blockRules: {
+    headerBlockList: BlockRules;
+    primaryBlockList: BlockRules;
+    secondaryBlockList: BlockRules;
+    selectionBlockList: BlockRules;
   };
   setBlocks: (blocks: {
     headerBlockList: Array<Item>;
@@ -23,13 +29,27 @@ export const BlockContext = createContext<BlockContextValue>({
     secondaryBlockList: [],
     selectionBlockList: [],
   },
+  blockRules: {
+    headerBlockList: {
+      disallowList: [],
+    },
+    primaryBlockList: {
+      disallowList: [],
+    },
+    secondaryBlockList: {
+      disallowList: [],
+    },
+    selectionBlockList: {
+      disallowList: [],
+    },
+  },
   setBlocks: () => {},
 });
 
 function BlockContextProvider({ children }: { children: any }) {
   const [contextValue, setContextValue] = useState<Omit<
     BlockContextValue,
-    "setBlocks"
+    "setBlocks" | "blockRules"
   > | null>(null);
 
   function setBlocks(args: {
@@ -55,6 +75,30 @@ function BlockContextProvider({ children }: { children: any }) {
       primaryBlockList: contextValue?.blocks.primaryBlockList || [],
       secondaryBlockList: contextValue?.blocks.secondaryBlockList || [],
       selectionBlockList: contextValue?.blocks.selectionBlockList || [],
+    },
+    blockRules: {
+      headerBlockList: {
+        disallowList: [
+          BlockDescriptor.Education,
+          BlockDescriptor.Experience,
+          BlockDescriptor.References,
+          BlockDescriptor.Certifications,
+          BlockDescriptor.Skills,
+        ],
+      },
+      primaryBlockList: {
+        disallowList: [
+          BlockDescriptor.Name,
+          BlockDescriptor.Title,
+          BlockDescriptor.ContactInfo,
+        ],
+      },
+      secondaryBlockList: {
+        disallowList: [BlockDescriptor.Name, BlockDescriptor.Title],
+      },
+      selectionBlockList: {
+        disallowList: [], // No disallowed blocks
+      },
     },
     setBlocks,
   };

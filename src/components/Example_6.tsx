@@ -20,14 +20,14 @@ const Example_6: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
       primaryBlockList: [],
       secondaryBlockList: [],
       selectionBlockList: [
-        { id: "1", content: "Contact Info" },
-        { id: "2", content: "Name" },
-        { id: "3", content: "Education" },
-        { id: "4", content: "Skills" },
-        { id: "5", content: "Experience" },
-        { id: "6", content: "Description" },
-        { id: "7", content: "Certifications" },
-        { id: "8", content: "References" },
+        // { id: "1", content: "Contact Info" },
+        // { id: "2", content: "Name" },
+        // { id: "3", content: "Education" },
+        // { id: "4", content: "Skills" },
+        // { id: "5", content: "Experience" },
+        // { id: "6", content: "Description" },
+        // { id: "7", content: "Certifications" },
+        // { id: "8", content: "References" },
       ],
     });
   }, []);

@@ -1,13 +1,18 @@
 import { useEffect, useState } from "react";
 import { Item, TemplateLayout } from "../types";
-import { DragDropContext, DropResult } from "react-beautiful-dnd";
+import {
+  DragDropContext,
+  Draggable,
+  DropResult,
+  Droppable,
+} from "react-beautiful-dnd";
 import { getListById, setListById } from "../utils";
 import DraggableArea from "./DraggableArea";
 import "./ShowPlaceHolderDocument.css";
 
 const initialItems: Item[] = [
-  { id: "1", content: "Contact Info" },
-  { id: "2", content: "Name" },
+  // { id: "1", content: "Contact Info" },
+  // { id: "2", content: "Name" },
   { id: "3", content: "Education" },
   { id: "4", content: "Skills" },
   { id: "5", content: "Experience" },
@@ -16,12 +21,17 @@ const initialItems: Item[] = [
   { id: "8", content: "References" },
 ];
 
+const headerList: Item[] = [
+  { id: "1", content: "Contact Info" },
+  { id: "2", content: "Name" },
+];
+
 const Example_5: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
   const [lists, setLists] = useState<{ [key: string]: Item[] }>({
     list1: [],
     list2: [],
     list3: initialItems,
-    list4: [],
+    list4: headerList,
   });
 
   const [dpi, setDpi] = useState(96); // Default DPI
@@ -61,8 +71,8 @@ const Example_5: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
   const headerHeightInPixels = inchesToPixels(headerHeightInInches, dpi);
   const bodyHeightInPixels = inchesToPixels(bodyHeightInInches, 80);
 
-  const primaryWidthInInches = 4.9025;
-  const secondaryWidthInInches = 2.0675;
+  const primaryWidthInInches = widthInInches * 0.75;
+  const secondaryWidthInInches = widthInInches * 0.25;
 
   const widthInPixels = inchesToPixels(widthInInches, 80);
   const heightInPixels = inchesToPixels(heightInInches, 80);
@@ -106,13 +116,52 @@ const Example_5: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
               backgroundColor: "red",
             }}
           >
-            <div
-              style={{
-                width: `${widthInPixels}px`,
-                height: `${headerHeightInPixels}px`,
-                backgroundColor: "lightgrey",
-              }}
-            ></div>
+            <Droppable droppableId={"list4"}>
+              {(provided) => (
+                <div
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                  style={{
+                    width: `${widthInPixels}px`,
+                    height: `${headerHeightInPixels}px`,
+                    backgroundColor: "lightgrey",
+                  }}
+                >
+                  header
+                  {lists.list4.map((item, index) => (
+                    <Draggable
+                      key={item.id}
+                      draggableId={item.id}
+                      index={index}
+                    >
+                      {(provided) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          style={{
+                            userSelect: "none",
+                            padding: "16px",
+                            borderRadius: "10px",
+
+                            margin: "0 0 8px 0",
+                            width: "100px",
+                            textAlign: "center",
+                            //   minHeight: "25px",
+                            backgroundColor: "#456C86",
+                            color: "white",
+                            ...provided.draggableProps.style,
+                          }}
+                        >
+                          {item.content}
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
 
             <div
               style={{

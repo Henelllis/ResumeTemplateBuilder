@@ -71,8 +71,8 @@ const Example_5: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
   const headerHeightInPixels = inchesToPixels(headerHeightInInches, dpi);
   const bodyHeightInPixels = inchesToPixels(bodyHeightInInches, 80);
 
-  const primaryWidthInInches = widthInInches * 0.75;
-  const secondaryWidthInInches = widthInInches * 0.25;
+  const primaryWidthInInches = widthInInches * 0.7;
+  const secondaryWidthInInches = widthInInches * 0.3;
 
   const widthInPixels = inchesToPixels(widthInInches, 80);
   const heightInPixels = inchesToPixels(heightInInches, 80);
@@ -125,6 +125,10 @@ const Example_5: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
                     width: `${widthInPixels}px`,
                     height: `${headerHeightInPixels}px`,
                     backgroundColor: "lightgrey",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
                   }}
                 >
                   header

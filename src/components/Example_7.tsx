@@ -150,18 +150,12 @@ const Example_7: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
           >
             <Droppable droppableId={"headerBlockList"}>
               {(provided) => (
-                <div
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                  style={{
-                    width: `${widthInPixels}px`,
-                    height: `${headerHeightInPixels}px`,
-                    backgroundColor: "lightgrey",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
+                <Container
+                  droppableProps={provided.droppableProps}
+                  droppableInnerRef={provided.innerRef}
+                  widthInPixels={widthInPixels}
+                  heightInPixels={headerHeightInPixels}
+                  backgroundColor="lightgrey"
                 >
                   header
                   {blocks.headerBlockList.map((item, index) => (
@@ -195,7 +189,7 @@ const Example_7: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
                     </Draggable>
                   ))}
                   {provided.placeholder}
-                </div>
+                </Container>
               )}
             </Droppable>
 
@@ -203,30 +197,22 @@ const Example_7: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
               style={{
                 width: `${widthInPixels}px`,
                 height: `${bodyHeightInPixels}px`,
-                backgroundColor: "lightblue",
               }}
             >
               <div
                 style={{
                   display: "flex",
                   flexDirection: "row",
-                  justifyContent: "space-between",
                 }}
               >
                 <Droppable droppableId={"primaryBlockList"}>
                   {(provided) => (
-                    <div
-                      {...provided.droppableProps}
-                      ref={provided.innerRef}
-                      style={{
-                        width: `${inchesToPixels(primaryWidthInInches, dpi)}px`,
-                        height: `${bodyHeightInPixels}px`,
-                        backgroundColor: "lightgreen",
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
+                    <Container
+                      droppableProps={provided.droppableProps}
+                      droppableInnerRef={provided.innerRef}
+                      widthInPixels={inchesToPixels(primaryWidthInInches, dpi)}
+                      heightInPixels={bodyHeightInPixels}
+                      backgroundColor="lightgreen"
                     >
                       Primary
                       {blocks.primaryBlockList.map((item, index) => (
@@ -260,27 +246,20 @@ const Example_7: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
                         </Draggable>
                       ))}
                       {provided.placeholder}
-                    </div>
+                    </Container>
                   )}
                 </Droppable>
                 <Droppable droppableId={"secondaryBlockList"}>
                   {(provided) => (
-                    <div
-                      {...provided.droppableProps}
-                      ref={provided.innerRef}
-                      style={{
-                        width: `${inchesToPixels(
-                          secondaryWidthInInches,
-                          dpi
-                        )}px`,
-                        height: `${bodyHeightInPixels}px`,
-
-                        backgroundColor: "lightcoral",
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
+                    <Container
+                      droppableProps={provided.droppableProps}
+                      droppableInnerRef={provided.innerRef}
+                      widthInPixels={inchesToPixels(
+                        secondaryWidthInInches,
+                        dpi
+                      )}
+                      heightInPixels={bodyHeightInPixels}
+                      backgroundColor="lightcoral"
                     >
                       Secondary
                       {blocks.secondaryBlockList.map((item, index) => (
@@ -314,7 +293,7 @@ const Example_7: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
                         </Draggable>
                       ))}
                       {provided.placeholder}
-                    </div>
+                    </Container>
                   )}
                 </Droppable>
               </div>

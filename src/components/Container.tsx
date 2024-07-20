@@ -25,7 +25,8 @@ function Container({
         height: `${heightInPixels}px`,
         display: "flex",
         flexDirection: "column",
-        justifyContent: "flex-start",
+        justifyContent: "center",
+        alignItems: "center",
         backgroundColor,
       }}
     >

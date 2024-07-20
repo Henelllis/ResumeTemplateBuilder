@@ -11,8 +11,8 @@ import DraggableArea from "./DraggableArea";
 import "./ShowPlaceHolderDocument.css";
 
 const initialItems: Item[] = [
-  // { id: "1", content: "Contact Info" },
-  // { id: "2", content: "Name" },
+  { id: "1", content: "Contact Info" },
+  { id: "2", content: "Name" },
   { id: "3", content: "Education" },
   { id: "4", content: "Skills" },
   { id: "5", content: "Experience" },
@@ -30,8 +30,8 @@ const Example_5: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
   const [lists, setLists] = useState<{ [key: string]: Item[] }>({
     list1: [],
     list2: [],
-    list3: [],
-    list4: headerList,
+    list3: initialItems,
+    list4: [],
   });
 
   const [dpi, setDpi] = useState(96); // Default DPI
@@ -190,6 +190,10 @@ const Example_5: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
                         width: `${inchesToPixels(primaryWidthInInches, dpi)}px`,
                         height: `${bodyHeightInPixels}px`,
                         backgroundColor: "lightgreen",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "center",
                       }}
                     >
                       Primary
@@ -227,19 +231,124 @@ const Example_5: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
                     </div>
                   )}
                 </Droppable>
-                <div
-                  style={{
-                    width: `${inchesToPixels(secondaryWidthInInches, dpi)}px`,
-                    height: `${bodyHeightInPixels}px`,
+                <Droppable droppableId={"list2"}>
+                  {(provided) => (
+                    <div
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
+                      style={{
+                        width: `${inchesToPixels(
+                          secondaryWidthInInches,
+                          dpi
+                        )}px`,
+                        height: `${bodyHeightInPixels}px`,
 
-                    backgroundColor: "lightcoral",
-                  }}
-                >
-                  Secondary
-                </div>
+                        backgroundColor: "lightcoral",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      Secondary
+                      {lists.list2.map((item, index) => (
+                        <Draggable
+                          key={item.id}
+                          draggableId={item.id}
+                          index={index}
+                        >
+                          {(provided) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              style={{
+                                userSelect: "none",
+                                padding: "16px",
+                                borderRadius: "10px",
+
+                                margin: "0 0 8px 0",
+                                width: "100px",
+                                textAlign: "center",
+                                //   minHeight: "25px",
+                                backgroundColor: "#456C86",
+                                color: "white",
+                                ...provided.draggableProps.style,
+                              }}
+                            >
+                              {item.content}
+                            </div>
+                          )}
+                        </Draggable>
+                      ))}
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
               </div>
             </div>
           </div>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+            // backgroundColor: "lightgrey",
+            height: "90vh",
+            padding: "20px",
+            borderRadius: "10px",
+            boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+            width: "50%",
+          }}
+        >
+          <Droppable droppableId={"list3"}>
+            {(provided) => (
+              <div
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                style={{
+                  // width: `${widthInPixels}px`,
+                  // height: `${headerHeightInPixels}px`,
+                  padding: "20px",
+                  backgroundColor: "lightgrey",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                {lists.list3.map((item, index) => (
+                  <Draggable key={item.id} draggableId={item.id} index={index}>
+                    {(provided) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        style={{
+                          userSelect: "none",
+                          padding: "16px",
+                          borderRadius: "10px",
+
+                          margin: "0 0 8px 0",
+                          width: "100px",
+                          textAlign: "center",
+                          //   minHeight: "25px",
+                          backgroundColor: "#456C86",
+                          color: "white",
+                          ...provided.draggableProps.style,
+                        }}
+                      >
+                        {item.content}
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
         </div>
       </div>
     </DragDropContext>

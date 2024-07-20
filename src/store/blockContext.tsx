@@ -32,18 +32,18 @@ function BlockContextProvider({ children }: { children: any }) {
     "setBlocks"
   > | null>(null);
 
-  function setBlocks(
-    headerBlockList: Array<Item>,
-    primaryBlockList: Array<Item>,
-    secondaryBlockList: Array<Item>,
-    selectionBlockList: Array<Item>
-  ): void {
+  function setBlocks(args: {
+    headerBlockList: Array<Item>;
+    primaryBlockList: Array<Item>;
+    secondaryBlockList: Array<Item>;
+    selectionBlockList: Array<Item>;
+  }): void {
     setContextValue({
       blocks: {
-        headerBlockList,
-        primaryBlockList,
-        secondaryBlockList,
-        selectionBlockList,
+        headerBlockList: args.headerBlockList,
+        primaryBlockList: args.primaryBlockList,
+        secondaryBlockList: args.secondaryBlockList,
+        selectionBlockList: args.selectionBlockList,
       },
     });
   }

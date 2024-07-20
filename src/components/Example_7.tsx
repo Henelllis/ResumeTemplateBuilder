@@ -10,6 +10,7 @@ import "./ShowPlaceHolderDocument.css";
 import { BlockContext } from "../store/blockContext";
 import Container from "./Container";
 import DraggableList from "./DraggableList";
+import { inchesToPixels } from "../utils";
 
 const Example_7: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
   const { blocks, blockRules, setBlocks } = useContext(BlockContext);
@@ -57,8 +58,6 @@ const Example_7: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
       window.removeEventListener("resize", estimateDPI);
     };
   }, []);
-
-  const inchesToPixels = (inches: number, dpi: number) => inches * dpi;
 
   const widthInInches = 8.27;
   const heightInInches = 11.69;

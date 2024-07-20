@@ -20,3 +20,5 @@ export const setListById = (
     [id]: items,
   }));
 };
+
+export const inchesToPixels = (inches: number, dpi: number) => inches * dpi;

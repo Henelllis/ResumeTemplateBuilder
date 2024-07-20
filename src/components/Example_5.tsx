@@ -30,7 +30,7 @@ const Example_5: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
   const [lists, setLists] = useState<{ [key: string]: Item[] }>({
     list1: [],
     list2: [],
-    list3: initialItems,
+    list3: [],
     list4: headerList,
   });
 
@@ -181,15 +181,52 @@ const Example_5: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
                   justifyContent: "space-between",
                 }}
               >
-                <div
-                  style={{
-                    width: `${inchesToPixels(primaryWidthInInches, dpi)}px`,
-                    height: `${bodyHeightInPixels}px`,
-                    backgroundColor: "lightgreen",
-                  }}
-                >
-                  Primary
-                </div>
+                <Droppable droppableId={"list1"}>
+                  {(provided) => (
+                    <div
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
+                      style={{
+                        width: `${inchesToPixels(primaryWidthInInches, dpi)}px`,
+                        height: `${bodyHeightInPixels}px`,
+                        backgroundColor: "lightgreen",
+                      }}
+                    >
+                      Primary
+                      {lists.list1.map((item, index) => (
+                        <Draggable
+                          key={item.id}
+                          draggableId={item.id}
+                          index={index}
+                        >
+                          {(provided) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              style={{
+                                userSelect: "none",
+                                padding: "16px",
+                                borderRadius: "10px",
+
+                                margin: "0 0 8px 0",
+                                width: "100px",
+                                textAlign: "center",
+                                //   minHeight: "25px",
+                                backgroundColor: "#456C86",
+                                color: "white",
+                                ...provided.draggableProps.style,
+                              }}
+                            >
+                              {item.content}
+                            </div>
+                          )}
+                        </Draggable>
+                      ))}
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
                 <div
                   style={{
                     width: `${inchesToPixels(secondaryWidthInInches, dpi)}px`,

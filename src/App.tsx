@@ -9,6 +9,7 @@ import ShowPlaceHolderDocument from "./components/ShowPlaceHolderDocument";
 import Example_5 from "./components/Example_5";
 import BlockContextProvider from "./store/blockContext";
 import Example_6 from "./components/Example_6";
+import Example_7 from "./components/Example_7";
 
 interface Item {
   id: string;
@@ -18,7 +19,7 @@ interface Item {
 function App() {
   return (
     <BlockContextProvider>
-      <Example_6 layout="HEADER_PRIMARY" />;
+      <Example_7 layout="HEADER_PRIMARY" />;
     </BlockContextProvider>
   );
 

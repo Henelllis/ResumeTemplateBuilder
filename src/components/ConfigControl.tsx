@@ -5,6 +5,7 @@ import { BlockDescriptor } from "../types";
 import { Droppable } from "react-beautiful-dnd";
 import DraggableList from "./DraggableList";
 import { isBlock } from "typescript";
+import Configuration from "./Configuration";
 
 function ConfigControl() {
   const { mode, setMode, selectedSection } = useContext(TemplateBuilderContext);
@@ -107,12 +108,17 @@ function ConfigControl() {
           </Droppable>
         </>
       ) : (
-        <div>
-          {selectedSection === null ? (
-            <p>DOCUMENT</p>
-          ) : (
-            <p>{selectedSection}</p>
-          )}
+        <div
+          style={{
+            marginTop: "50px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "100%",
+          }}
+        >
+          <Configuration />
         </div>
       )}
     </div>

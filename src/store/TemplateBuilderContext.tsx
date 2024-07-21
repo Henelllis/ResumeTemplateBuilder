@@ -3,31 +3,52 @@ import { TemplateBuilderMode } from "../types";
 
 export interface TemplateBuilderContextValue {
   mode: TemplateBuilderMode;
+  selectedSection: "header" | "primary" | "secondary" | null;
   setMode: (args: { mode: TemplateBuilderMode }) => void;
+  setSelection: (args: {
+    section: "header" | "primary" | "secondary" | null;
+  }) => void;
 }
 
 export const TemplateBuilderContext =
   createContext<TemplateBuilderContextValue>({
     mode: "BLOCK_PLACEMENT_EDIT",
+    selectedSection: null,
     setMode: () => {},
+    setSelection: () => {},
   });
 
 function TemplateBuilderContextProvider({ children }: { children: any }) {
-  const [contextValue, setContextValue] = useState<Omit<
+  const [modeValue, setModeValue] = useState<Omit<
     TemplateBuilderContextValue,
-    "setMode"
+    "setMode" | "selectedSection" | "setSelection"
+  > | null>(null);
+
+  const [sectionValue, setSectionValue] = useState<Omit<
+    TemplateBuilderContextValue,
+    "setMode" | "mode" | "setSelection"
   > | null>(null);
 
   function setMode(args: { mode: TemplateBuilderMode }): void {
     console.log(args);
-    setContextValue({
+    setModeValue({
       mode: args.mode,
     });
   }
 
+  function setSelection(args: {
+    section: "header" | "primary" | "secondary" | null;
+  }): void {
+    setSectionValue({
+      selectedSection: args.section,
+    });
+  }
+
   const value = {
-    mode: contextValue?.mode || "BLOCK_PLACEMENT_EDIT",
+    mode: modeValue?.mode || "BLOCK_PLACEMENT_EDIT",
+    selectedSection: sectionValue?.selectedSection || null,
     setMode,
+    setSelection,
   };
 
   return (

@@ -4,9 +4,10 @@ import { BlockContext } from "../store/blockContext";
 import { BlockDescriptor } from "../types";
 import { Droppable } from "react-beautiful-dnd";
 import DraggableList from "./DraggableList";
+import { isBlock } from "typescript";
 
 function ConfigControl() {
-  const { mode, setMode } = useContext(TemplateBuilderContext);
+  const { mode, setMode, selectedSection } = useContext(TemplateBuilderContext);
 
   const { blocks, setBlocks } = useContext(BlockContext);
 
@@ -28,11 +29,12 @@ function ConfigControl() {
     return false;
   };
 
+  const isBlockMode = mode === "BLOCK_PLACEMENT_EDIT";
+
   return (
     <div
       style={{
         display: "flex",
-        justifyContent: "center",
         alignItems: "center",
         flexDirection: "column",
         height: "90vh",
@@ -49,18 +51,11 @@ function ConfigControl() {
           width: "60%",
         }}
       >
-        <h2>
-          {mode === "BLOCK_PLACEMENT_EDIT"
-            ? "Block Placement Mode"
-            : "Edit Mode"}
-        </h2>
+        <h2>{isBlockMode ? "Block Placement Mode" : "Edit Mode"}</h2>
         <button
           disabled={!isValidToSwitchToEdit()}
           onClick={() => {
-            const newMode =
-              mode === "BLOCK_PLACEMENT_EDIT"
-                ? "HTML_EDIT"
-                : "BLOCK_PLACEMENT_EDIT";
+            const newMode = isBlockMode ? "HTML_EDIT" : "BLOCK_PLACEMENT_EDIT";
 
             if (isValidToSwitchToEdit()) {
               console.log("Switching to", newMode);
@@ -81,34 +76,45 @@ function ConfigControl() {
             cursor: "pointer",
           }}
         >
-          {mode === "BLOCK_PLACEMENT_EDIT"
-            ? "Edit Mode"
-            : "Block Placement Mode"}
+          {isBlockMode ? "Edit Mode" : "Block Placement Mode"}
         </button>
       </div>
-      <h3>
-        Please Drag and drop these blocks to where you want them to be in the
-        resume
-      </h3>
-      <Droppable droppableId={"selectionBlockList"}>
-        {(provided) => (
-          <div
-            {...provided.droppableProps}
-            ref={provided.innerRef}
-            style={{
-              padding: "20px",
-              backgroundColor: "lightgrey",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <DraggableList blockList={blocks.selectionBlockList} />
-            {provided.placeholder}
-          </div>
-        )}
-      </Droppable>
+
+      {isBlockMode ? (
+        <>
+          <h3>
+            Please Drag and drop these blocks to where you want them to be in
+            the resume
+          </h3>
+          <Droppable droppableId={"selectionBlockList"}>
+            {(provided) => (
+              <div
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                style={{
+                  padding: "20px",
+                  backgroundColor: "lightgrey",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <DraggableList blockList={blocks.selectionBlockList} />
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </>
+      ) : (
+        <div>
+          {selectedSection === null ? (
+            <p>DOCUMENT</p>
+          ) : (
+            <p>{selectedSection}</p>
+          )}
+        </div>
+      )}
     </div>
   );
 }

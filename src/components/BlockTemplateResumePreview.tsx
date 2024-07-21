@@ -22,7 +22,7 @@ function BlockTemplateResumePreview({
     secondaryBlockList: Array<Item>;
   };
 }) {
-  const { mode } = useContext(TemplateBuilderContext);
+  const { mode, setSelection } = useContext(TemplateBuilderContext);
 
   const headerHeightInInches = 2;
   const bodyHeightInInches = heightInInches - headerHeightInInches;
@@ -53,6 +53,7 @@ function BlockTemplateResumePreview({
               widthInPixels={widthInPixels}
               heightInPixels={headerHeightInPixels}
               backgroundColor="lightgrey"
+              section="header"
             >
               header
               <DraggableList blockList={blocks.headerBlockList} />
@@ -65,6 +66,7 @@ function BlockTemplateResumePreview({
           widthInPixels={widthInPixels}
           heightInPixels={headerHeightInPixels}
           backgroundColor="lightgrey"
+          section="header"
         >
           {blocks.headerBlockList.map((block) => (
             <BlockRenderer isHeader key={block.id} content={block.content} />
@@ -92,6 +94,7 @@ function BlockTemplateResumePreview({
                   droppableInnerRef={provided.innerRef}
                   widthInPixels={inchesToPixels(primaryWidthInInches, dpi)}
                   heightInPixels={bodyHeightInPixels}
+                  section="primary"
                 >
                   Primary
                   <DraggableList blockList={blocks.primaryBlockList} />
@@ -104,6 +107,7 @@ function BlockTemplateResumePreview({
               widthInPixels={inchesToPixels(primaryWidthInInches, dpi)}
               heightInPixels={bodyHeightInPixels}
               backgroundColor="#FAF9F6"
+              section="primary"
             >
               {blocks.primaryBlockList.map((block) => (
                 <BlockRenderer
@@ -123,6 +127,7 @@ function BlockTemplateResumePreview({
                   widthInPixels={inchesToPixels(secondaryWidthInInches, dpi)}
                   heightInPixels={bodyHeightInPixels}
                   backgroundColor="lightcoral"
+                  section="secondary"
                 >
                   Secondary
                   <DraggableList blockList={blocks.secondaryBlockList} />
@@ -135,6 +140,7 @@ function BlockTemplateResumePreview({
               widthInPixels={inchesToPixels(secondaryWidthInInches, dpi)}
               heightInPixels={bodyHeightInPixels}
               backgroundColor="wheat"
+              section="secondary"
             >
               {blocks.secondaryBlockList.map((block) => (
                 <BlockRenderer

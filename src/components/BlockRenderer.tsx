@@ -23,7 +23,6 @@ const ContactInfoBlock: React.FC = () => (
     style={{
       display: "flex",
       flexDirection: "column",
-      backgroundColor: "red",
       width: "100%",
       height: "100%",
       alignItems: "center",
@@ -42,7 +41,6 @@ const ContactInfoHeaderBlock: React.FC = () => (
     style={{
       display: "flex",
       flexDirection: "row",
-      backgroundColor: "red",
       width: "100%",
       justifyContent: "center",
       gap: "10px",
@@ -55,57 +53,177 @@ const ContactInfoHeaderBlock: React.FC = () => (
   </div>
 );
 
-const EducationBlock: React.FC = () => (
-  <div
-    style={{
-      height: "100%",
-      width: "100%",
-
-      background: "green",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-    }}
-  >
-    Education Block
-  </div>
-);
 const SkillsBlock: React.FC = () => (
   <div
     style={{
       height: "100%",
       width: "100%",
-      background: "blue",
       display: "flex",
       flexDirection: "column",
-      justifyContent: "center",
+      justifyContent: "flex-start",
       alignItems: "center",
     }}
   >
-    <p>Skill</p>
+    <p>Skills</p>
     <ul>
-      <li>Skill 1</li>
-      <li>Skill 2</li>
-      <li>Skill 3</li>
+      <li>Leisure</li>
+      <li>Salsa</li>
+      <li>HTML</li>
     </ul>
   </div>
 );
-const ExperienceBlock: React.FC = () => (
-  <div
-    style={{
-      height: "100%",
-      width: "100%",
-      background: "yellow",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-    }}
-  >
-    Experience Block
-  </div>
-);
+
+const EducationBlock: React.FC<{ default: boolean }> = ({
+  default: defaultProp,
+}) => {
+  let education = [
+    {
+      title: "BS:Computer Science",
+      establishment: "MIT",
+      startDate: "2014",
+      endDate: "2018",
+      location: "Boston, MA",
+      description: "",
+    },
+    {
+      title: "AS:Liberat Arts",
+      establishment: "Community College",
+      startDate: "2012",
+      endDate: "2014",
+      location: "Anywhere, CA",
+      description: "",
+    },
+  ];
+
+  if (defaultProp) {
+  }
+
+  return (
+    <div
+      style={{
+        height: "100%",
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "flex-start",
+        paddingLeft: "40px",
+      }}
+    >
+      <h2>Education</h2>
+      {education.map((education) => (
+        <div style={{ width: "90%", marginBottom: 20 }}>
+          <div
+            style={{
+              display: "flex",
+              width: "100%",
+              justifyContent: "space-between",
+              alignItems: "center",
+              margin: 0,
+            }}
+          >
+            <h3 style={{ margin: 0 }}>{education.establishment}</h3>
+            <p style={{ margin: 0 }}>
+              {education.startDate} - {education.endDate}
+            </p>
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              width: "100%",
+              justifyContent: "space-between",
+              alignItems: "center",
+              margin: 0,
+            }}
+          >
+            <p style={{ margin: 0 }}>{education.title}</p>
+            <p style={{ margin: 0 }}>{education.location}</p>
+          </div>
+
+          {education.description && (
+            <p style={{ fontSize: ".9em" }}>{education.description}</p>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const ExperienceBlock: React.FC<{ default: boolean }> = ({
+  default: defaultProp,
+}) => {
+  let experiences = [
+    {
+      title: "Software Engineer",
+      establishment: "Google",
+      startDate: "2019",
+      endDate: "2021",
+      description: "Worked on Google Search",
+      location: "Mountain View, CA",
+    },
+    {
+      title: "Software Engineer",
+      establishment: "Facebook",
+      startDate: "2017",
+      endDate: "2019",
+      description: "Worked on Facebook Ads",
+      location: "Menlo Park, CA",
+    },
+  ];
+
+  if (defaultProp) {
+  }
+
+  return (
+    <div
+      style={{
+        height: "100%",
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "flex-start",
+        paddingLeft: "40px",
+      }}
+    >
+      <h2>Experiences</h2>
+      {experiences.map((experience) => (
+        <div style={{ width: "90%" }}>
+          <div
+            style={{
+              display: "flex",
+              width: "100%",
+              justifyContent: "space-between",
+              alignItems: "center",
+              margin: 0,
+            }}
+          >
+            <h3 style={{ margin: 0 }}>{experience.establishment}</h3>
+            <p style={{ margin: 0 }}>
+              {experience.startDate} - {experience.endDate}
+            </p>
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              width: "100%",
+              justifyContent: "space-between",
+              alignItems: "center",
+              margin: 0,
+            }}
+          >
+            <p style={{ margin: 0 }}>{experience.title}</p>
+            <p style={{ margin: 0 }}>{experience.location}</p>
+          </div>
+
+          <p style={{ fontSize: ".9em" }}>*{experience.description}</p>
+        </div>
+      ))}
+    </div>
+  );
+};
 const DescriptionBlock: React.FC = () => <div>Description Block</div>;
 const CertificationsBlock: React.FC = () => <div>Certifications Block</div>;
 const ReferencesBlock: React.FC = () => <div>References Block</div>;
@@ -130,11 +248,11 @@ const BlockRenderer: React.FC<BlockProps> = ({ isHeader, content }) => {
       case BlockDescriptor.ContactInfo:
         return <ContactInfoBlock />;
       case BlockDescriptor.Education:
-        return <EducationBlock />;
+        return <EducationBlock default={true} />;
       case BlockDescriptor.Skills:
         return <SkillsBlock />;
       case BlockDescriptor.Experience:
-        return <ExperienceBlock />;
+        return <ExperienceBlock default={true} />;
       case BlockDescriptor.Description:
         return <DescriptionBlock />;
       case BlockDescriptor.Certifications:

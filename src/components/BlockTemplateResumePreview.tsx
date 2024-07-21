@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import Container from "./Container";
 import { Droppable } from "react-beautiful-dnd";
 import DraggableList from "./DraggableList";
@@ -22,7 +22,7 @@ function BlockTemplateResumePreview({
     secondaryBlockList: Array<Item>;
   };
 }) {
-  const { mode, setMode } = useContext(TemplateBuilderContext);
+  const { mode } = useContext(TemplateBuilderContext);
 
   const headerHeightInInches = 2;
   const bodyHeightInInches = heightInInches - headerHeightInInches;
@@ -36,13 +36,15 @@ function BlockTemplateResumePreview({
   const widthInPixels = inchesToPixels(widthInInches, 80);
   const heightInPixels = inchesToPixels(heightInInches, 80);
 
+  const isBlockMode = mode === "BLOCK_PLACEMENT_EDIT";
+
   return (
     <Container
       widthInPixels={widthInPixels}
       heightInPixels={heightInPixels}
       backgroundColor="red"
     >
-      {mode === "BLOCK_PLACEMENT_EDIT" ? (
+      {isBlockMode ? (
         <Droppable droppableId={"headerBlockList"}>
           {(provided) => (
             <Container
@@ -82,7 +84,7 @@ function BlockTemplateResumePreview({
             flexDirection: "row",
           }}
         >
-          {mode === "BLOCK_PLACEMENT_EDIT" ? (
+          {isBlockMode ? (
             <Droppable droppableId={"primaryBlockList"}>
               {(provided) => (
                 <Container
@@ -90,7 +92,6 @@ function BlockTemplateResumePreview({
                   droppableInnerRef={provided.innerRef}
                   widthInPixels={inchesToPixels(primaryWidthInInches, dpi)}
                   heightInPixels={bodyHeightInPixels}
-                  backgroundColor="lightgreen"
                 >
                   Primary
                   <DraggableList blockList={blocks.primaryBlockList} />
@@ -102,7 +103,7 @@ function BlockTemplateResumePreview({
             <Container
               widthInPixels={inchesToPixels(primaryWidthInInches, dpi)}
               heightInPixels={bodyHeightInPixels}
-              backgroundColor="lightgrey"
+              backgroundColor="#FAF9F6"
             >
               {blocks.primaryBlockList.map((block) => (
                 <BlockRenderer
@@ -113,7 +114,7 @@ function BlockTemplateResumePreview({
               ))}
             </Container>
           )}
-          {mode === "BLOCK_PLACEMENT_EDIT" ? (
+          {isBlockMode ? (
             <Droppable droppableId={"secondaryBlockList"}>
               {(provided) => (
                 <Container
@@ -133,7 +134,7 @@ function BlockTemplateResumePreview({
             <Container
               widthInPixels={inchesToPixels(secondaryWidthInInches, dpi)}
               heightInPixels={bodyHeightInPixels}
-              backgroundColor="lightcoral"
+              backgroundColor="wheat"
             >
               {blocks.secondaryBlockList.map((block) => (
                 <BlockRenderer

@@ -11,8 +11,8 @@ function Container({
 }: {
   widthInPixels: number;
   heightInPixels: number;
-  backgroundColor: string;
   children: React.ReactNode;
+  backgroundColor?: string;
   droppableProps?: DroppableProvidedProps;
   droppableInnerRef?: (element: HTMLElement | null) => void;
 }) {
@@ -27,7 +27,8 @@ function Container({
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor,
+        backgroundColor: backgroundColor || "transparent",
+        borderBottom: "1px solid black",
       }}
     >
       {children}

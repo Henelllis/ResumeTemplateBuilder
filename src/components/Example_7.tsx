@@ -8,7 +8,7 @@ import {
   TemplateLayout,
 } from "../types";
 import { DragDropContext, DropResult, Droppable } from "react-beautiful-dnd";
-import "./ShowPlaceHolderDocument.css";
+import "./document.css";
 import { BlockContext } from "../store/blockContext";
 import DraggableList from "./DraggableList";
 import BlockTemplateResumePreview from "./BlockTemplateResumePreview";
@@ -211,7 +211,7 @@ const Example_7: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
             <h2>
               {mode === "BLOCK_PLACEMENT_EDIT"
                 ? "Block Placement Mode"
-                : "Preview Mode"}
+                : "Edit Mode"}
             </h2>
             <button
               disabled={!isValidToSwitchToEdit()}

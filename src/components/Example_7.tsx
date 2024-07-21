@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import {
   BlockDescriptor,
   BlockListKey,
+  ConfigType,
   Item,
   TemplateBuilderMode,
   TemplateLayout,
@@ -25,15 +26,48 @@ const Example_7: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
       primaryBlockList: [],
       secondaryBlockList: [],
       selectionBlockList: [
-        { id: "1", content: BlockDescriptor.Name },
-        { id: "2", content: BlockDescriptor.ContactInfo },
-        { id: "3", content: BlockDescriptor.Education },
-        { id: "4", content: BlockDescriptor.Skills },
-        { id: "5", content: BlockDescriptor.Experience },
-        { id: "6", content: BlockDescriptor.Description },
-        { id: "7", content: BlockDescriptor.Certifications },
-        { id: "8", content: BlockDescriptor.References },
-        { id: "9", content: BlockDescriptor.Title },
+        { id: "1", content: BlockDescriptor.Name, configType: ConfigType.TEXT },
+        {
+          id: "2",
+          content: BlockDescriptor.ContactInfo,
+          configType: ConfigType.CONTACT,
+        },
+        {
+          id: "3",
+          content: BlockDescriptor.Education,
+          configType: ConfigType.TIME_SPAN,
+        },
+        {
+          id: "4",
+          content: BlockDescriptor.Experience,
+          configType: ConfigType.TIME_SPAN,
+        },
+
+        {
+          id: "5",
+          content: BlockDescriptor.Skills,
+          configType: ConfigType.LIST,
+        },
+        {
+          id: "6",
+          content: BlockDescriptor.Description,
+          configType: ConfigType.TEXT,
+        },
+        {
+          id: "7",
+          content: BlockDescriptor.Certifications,
+          configType: ConfigType.DETAIL,
+        },
+        {
+          id: "8",
+          content: BlockDescriptor.References,
+          configType: ConfigType.DETAIL,
+        },
+        {
+          id: "9",
+          content: BlockDescriptor.Title,
+          configType: ConfigType.TEXT,
+        },
       ],
     });
   }, []);

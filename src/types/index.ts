@@ -1,7 +1,7 @@
-export // Define an interface for the item type
-interface Item {
-  id: string;
-  content: BlockDescriptor;
+export interface Item {
+  id: string; // Unique identifier for the item
+  content: BlockDescriptor; // Block type of Item
+  configType: ConfigType; // Type of configuration for the item
 }
 
 export interface BlockRules {
@@ -78,3 +78,206 @@ export enum BlockDescriptor {
 }
 
 export type TemplateBuilderMode = "BLOCK_PLACEMENT_EDIT" | "HTML_EDIT";
+
+export enum ConfigType {
+  "LIST" = "LIST",
+  "DETAIL" = "DETAIL",
+  "DOCUMENT" = "DOCUMENT",
+  "TIME_SPAN" = "TIME_SPAN",
+  "TEXT" = "TEXT",
+  "EVENT" = "EVENT",
+  "PERIOD_OF_TIME" = "PERIOD_OF_TIME",
+  "CONTACT" = "CONTACT",
+  "HEADER" = "HEADER",
+  "PRIMARY" = "PRIMARY",
+  "SECONDARY" = "SECONDARY",
+}
+
+export const ConfigLayouts = {
+  DOCUMENT: {
+    primaryColor: {
+      type: "string",
+      default: "#FFFFFF",
+    },
+    secondaryColor: {
+      type: "string",
+      default: "#000000",
+    },
+    padding: {
+      type: "number",
+      default: 0,
+      min: 0,
+      max: 100,
+    },
+    margin: {
+      type: "number",
+      default: 0,
+      min: 0,
+      max: 100,
+    },
+    fontType: {
+      type: "string",
+      default: "Arial",
+    },
+    fontSize: {
+      type: "number",
+      default: 12,
+      min: 8,
+      max: 72,
+    },
+    fontColor: {
+      type: "string",
+      default: "#000000",
+    },
+    waterMarkLogo: {
+      type: "string",
+      default: "",
+    },
+  },
+  HEADER: {
+    backgroundColor: {
+      type: "string",
+      default: "#000000",
+    },
+    padding: {
+      type: "number",
+      default: 0,
+      min: 0,
+      max: 100,
+    },
+    margin: {
+      type: "number",
+      default: 0,
+      min: 0,
+      max: 100,
+    },
+  },
+  TEXT: {
+    fontSize: {
+      type: "number",
+      default: 12,
+      min: 8,
+      max: 72,
+    },
+    fontFamily: {
+      type: "string",
+      default: "Arial",
+    },
+    color: {
+      type: "string",
+      default: "#000000",
+    },
+  },
+  TIME_SPAN: {
+    startDate: {
+      type: "string",
+      default: "Start Date",
+    },
+    endDate: {
+      type: "string",
+      default: "End Date",
+    },
+    name: {
+      type: "string",
+      default: "Name",
+    },
+    title: {
+      type: "string",
+      default: "Title",
+    },
+  },
+  EVENT: {
+    title: {
+      type: "string",
+      default: "Event Title",
+    },
+    date: {
+      type: "string",
+      default: "Event Date",
+    },
+    location: {
+      type: "string",
+      default: "Event Location",
+    },
+  },
+  CONTACT: {
+    name: {
+      type: "string",
+      default: "Contact Name",
+    },
+    email: {
+      type: "string",
+      default: "Contact Email",
+    },
+    phone: {
+      type: "string",
+      default: "Contact Phone",
+    },
+    address: {
+      type: "string",
+      default: "Contact Address",
+    },
+  },
+};
+
+export interface Template {
+  id: string; // Unique identifier for the template>
+  name: string; // Name of the template
+  layout: TemplateLayout; // Layout of the template
+  headerBlocks: Item[]; // Blocks in the header
+  primaryBlocks: Item[]; // Blocks in the primary section
+  secondaryBlocks: Item[]; // Blocks in the secondary section
+  config: {
+    // Configuration for the Block or Layout Section
+    [key: string]: any;
+  };
+}
+
+export interface Resume {
+  id: string; // Unique identifier for the resume
+  userId: string; // Unique identifier for the user
+  template: Template; // Template used for the resume
+  templateData: {
+    [key: string]: any; // Data for the template
+  };
+}
+
+export const configState = {
+  DOCUMENT: {
+    primaryColor: "#FFFFFF",
+    secondaryColor: "#000000",
+    padding: 0,
+    margin: 0,
+    fontType: "Arial",
+    fontSize: 12,
+    fontColor: "#000000",
+    waterMarkLogo: "",
+  },
+  HEADER: {
+    backgroundColor: "#000000",
+    padding: 0,
+    margin: 0,
+  },
+  TEXT: {
+    fontSize: 12,
+    fontFamily: "Arial",
+    color: "#000000",
+  },
+  TIME_SPAN: {
+    startDate: "Start Date",
+    endDate: "End Date",
+    name: "Name",
+    title: "Title",
+  },
+  EVENT: {
+    title: "Event Title",
+    date: "Event Date",
+    location: "Event Location",
+  },
+  CONTACT: {
+    name: "Contact Name",
+    email: "Contact Email",
+    phone: "Contact Phone",
+    address: "Contact Address",
+  },
+};

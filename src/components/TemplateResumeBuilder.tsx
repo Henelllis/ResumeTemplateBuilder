@@ -11,7 +11,7 @@ import {
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import "./document.css";
 import { BlockContext } from "../store/blockContext";
-import BlockTemplateResumePreview from "./BlockTemplateResumePreview";
+import ResumePreview from "./ResumePreview";
 import { TemplateBuilderContext } from "../store/TemplateBuilderContext";
 import ConfigControl from "./ConfigControl";
 import { IconButton } from "@mui/material";
@@ -221,7 +221,7 @@ const TemplateResumeBuilder: React.FC<{ layout: TemplateLayout }> = ({
             fontFamily: style.fontType,
           }}
         >
-          <BlockTemplateResumePreview
+          <ResumePreview
             widthInInches={widthInInches}
             heightInInches={heightInInches}
             dpi={dpi}

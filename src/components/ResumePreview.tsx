@@ -7,7 +7,7 @@ import { getPrimaryAndSecondaryColor, inchesToPixels } from "../utils";
 import { TemplateBuilderContext } from "../store/TemplateBuilderContext";
 import BlockRenderer from "./BlockRenderer";
 
-function BlockTemplateResumePreview({
+function ResumePreview({
   widthInInches,
   heightInInches,
   dpi,
@@ -172,4 +172,4 @@ function BlockTemplateResumePreview({
   );
 }
 
-export default BlockTemplateResumePreview;
+export default ResumePreview;

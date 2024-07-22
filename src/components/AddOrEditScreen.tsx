@@ -14,7 +14,7 @@ import { AppContext } from "../store/AppContext";
 import { SCREEN } from "../types";
 
 const AddOrEditScreen: React.FC = () => {
-  const { screen, setScreen } = useContext(AppContext);
+  const { screen, setScreen, setTemplateToUse } = useContext(AppContext);
 
   let title = "";
 
@@ -73,6 +73,7 @@ const AddOrEditScreen: React.FC = () => {
             onClick={() => {
               if (screen === "TEMPLATE_ADD_OR_EDIT") {
                 setScreen(SCREEN.TEMPLATE_BUILDER);
+                setTemplateToUse(null);
               }
 
               if (screen === "RESUME_FILLING_ADD_OR_EDIT") {

@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   MenuItem,
   Select,
@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { TemplateBuilderContext } from "../store/TemplateBuilderContext";
 import { BlockDescriptor } from "../types";
+import { AppContext } from "../store/AppContext";
 
 const SectionConfig = ({
   blockDescriptor,
@@ -24,9 +25,48 @@ const SectionConfig = ({
     margin: 0,
   });
 
+  const { templateToUse } = useContext(AppContext);
+
   const { currentWorkingTemplate, setCurrentWorkingTemplate } = useContext(
     TemplateBuilderContext
   );
+
+  useEffect(() => {
+    if (templateToUse) {
+      const block = templateToUse.styles[blockDescriptor];
+      if (block) {
+        if (currentWorkingTemplate) {
+          let stylesInUse = currentWorkingTemplate[blockDescriptor];
+
+          console.log("Styles in use", stylesInUse);
+
+          if (
+            block.fontSize !== stylesInUse.fontSize ||
+            block.fontType !== stylesInUse.fontType ||
+            block.colorScheme !== stylesInUse.colorScheme ||
+            block.margin !== stylesInUse.margin
+          ) {
+            console.log("Setting form values from current working template");
+            setFormValues({
+              fontSize: stylesInUse.fontSize,
+              fontType: stylesInUse.fontType,
+              colorScheme: stylesInUse.colorScheme,
+              margin: stylesInUse.margin,
+            });
+          } else {
+            console.log("Setting form values from template to use");
+
+            setFormValues({
+              fontSize: block.fontSize,
+              fontType: block.fontType,
+              colorScheme: block.colorScheme,
+              margin: block.margin,
+            });
+          }
+        }
+      }
+    }
+  }, []);
 
   const handleInputChange = (event: any) => {
     const { name, value, type, checked } = event.target;

@@ -15,7 +15,7 @@ import { TemplateBuilderContext } from "../store/TemplateBuilderContext";
 import { SCREEN } from "../types";
 
 const SelectionGrid: React.FC = () => {
-  const { screen, setScreen } = useContext(AppContext);
+  const { screen, setScreen, setTemplateToUse } = useContext(AppContext);
   const { templates } = useContext(TemplateBuilderContext);
 
   let gridItems: any[] = [];
@@ -69,6 +69,16 @@ const SelectionGrid: React.FC = () => {
                 textAlign: "center",
                 cursor: "pointer",
                 boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.3)",
+              }}
+              onClick={() => {
+                if (screen === SCREEN.TEMPLATES_TO_EDIT) {
+                  setTemplateToUse(template);
+                  setScreen(SCREEN.TEMPLATE_BUILDER);
+                }
+
+                if (screen === SCREEN.RESUME_TO_EDIT) {
+                  setScreen(SCREEN.RESUME_FILLING);
+                }
               }}
             >
               <CardMedia>

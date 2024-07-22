@@ -26,7 +26,7 @@ const TemplateResumeBuilder: React.FC<{ layout: TemplateLayout }> = ({
   const { mode, setMode, currentWorkingTemplate, setCurrentWorkingTemplate } =
     useContext(TemplateBuilderContext);
 
-  const { setScreen } = useContext(AppContext);
+  const { setScreen, templateToUse } = useContext(AppContext);
 
   const [dpi, setDpi] = useState(96); // Default DPI
 
@@ -36,57 +36,76 @@ const TemplateResumeBuilder: React.FC<{ layout: TemplateLayout }> = ({
   }, [currentWorkingTemplate]);
 
   useEffect(() => {
-    setBlocks({
-      headerBlockList: [],
-      primaryBlockList: [],
-      secondaryBlockList: [],
-      selectionBlockList: [
-        { id: "1", content: BlockDescriptor.Name, configType: ConfigType.TEXT },
-        {
-          id: "2",
-          content: BlockDescriptor.ContactInfo,
-          configType: ConfigType.CONTACT,
-        },
-        {
-          id: "3",
-          content: BlockDescriptor.Education,
-          configType: ConfigType.TIME_SPAN,
-        },
-        {
-          id: "4",
-          content: BlockDescriptor.Experience,
-          configType: ConfigType.TIME_SPAN,
-        },
-        {
-          id: "5",
-          content: BlockDescriptor.Skills,
-          configType: ConfigType.LIST,
-        },
-        {
-          id: "6",
-          content: BlockDescriptor.Description,
-          configType: ConfigType.TEXT,
-        },
-        {
-          id: "7",
-          content: BlockDescriptor.Certifications,
-          configType: ConfigType.DETAIL,
-        },
-        {
-          id: "8",
-          content: BlockDescriptor.References,
-          configType: ConfigType.DETAIL,
-        },
-        {
-          id: "9",
-          content: BlockDescriptor.Title,
-          configType: ConfigType.TEXT,
-        },
-      ],
-    });
-    setCurrentWorkingTemplate({
-      template: blockStateMap,
-    });
+    if (templateToUse) {
+      setBlocks({
+        headerBlockList: templateToUse.headerBlocks,
+        primaryBlockList: templateToUse.primaryBlocks,
+        secondaryBlockList: templateToUse.secondaryBlocks,
+        selectionBlockList: [], //TODO : Add selection block list KEEP TRACK OF UNUSED BLOCKS
+      });
+      setCurrentWorkingTemplate({
+        template: templateToUse.styles,
+      });
+      setMode({
+        mode: "HTML_EDIT",
+      });
+    } else {
+      setBlocks({
+        headerBlockList: [],
+        primaryBlockList: [],
+        secondaryBlockList: [],
+        selectionBlockList: [
+          {
+            id: "1",
+            content: BlockDescriptor.Name,
+            configType: ConfigType.TEXT,
+          },
+          {
+            id: "2",
+            content: BlockDescriptor.ContactInfo,
+            configType: ConfigType.CONTACT,
+          },
+          {
+            id: "3",
+            content: BlockDescriptor.Education,
+            configType: ConfigType.TIME_SPAN,
+          },
+          {
+            id: "4",
+            content: BlockDescriptor.Experience,
+            configType: ConfigType.TIME_SPAN,
+          },
+          {
+            id: "5",
+            content: BlockDescriptor.Skills,
+            configType: ConfigType.LIST,
+          },
+          {
+            id: "6",
+            content: BlockDescriptor.Description,
+            configType: ConfigType.TEXT,
+          },
+          {
+            id: "7",
+            content: BlockDescriptor.Certifications,
+            configType: ConfigType.DETAIL,
+          },
+          {
+            id: "8",
+            content: BlockDescriptor.References,
+            configType: ConfigType.DETAIL,
+          },
+          {
+            id: "9",
+            content: BlockDescriptor.Title,
+            configType: ConfigType.TEXT,
+          },
+        ],
+      });
+      setCurrentWorkingTemplate({
+        template: blockStateMap,
+      });
+    }
   }, []);
 
   useEffect(() => {

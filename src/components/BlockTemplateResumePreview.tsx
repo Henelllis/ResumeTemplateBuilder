@@ -48,8 +48,6 @@ function BlockTemplateResumePreview({
     style.colorScheme
   );
 
-  console.log("primaryColor" + primaryColor);
-  console.log("secondaryColor" + secondaryColor);
   return (
     <Container
       widthInPixels={widthInPixels}

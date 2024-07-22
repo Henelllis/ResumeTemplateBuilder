@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { TemplateBuilderContext } from "../store/TemplateBuilderContext";
 import { BlockContext } from "../store/blockContext";
 import { BlockDescriptor, SCREEN } from "../types";
@@ -19,9 +19,15 @@ function ConfigControl() {
   } = useContext(TemplateBuilderContext);
 
   const { blocks, setBlocks } = useContext(BlockContext);
-  const { setScreen } = useContext(AppContext);
+  const { setScreen, templateToUse } = useContext(AppContext);
 
   const [name, setName] = useState("");
+
+  useEffect(() => {
+    if (templateToUse) {
+      setName(templateToUse.name);
+    }
+  }, []);
 
   const handleChange = (event: any) => {
     setName(event.target.value);
@@ -71,6 +77,7 @@ function ConfigControl() {
         <TextField
           label="Template Name"
           variant="outlined"
+          disabled={!!templateToUse}
           value={name}
           onChange={handleChange}
           sx={{ mb: 2 }}

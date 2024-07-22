@@ -4,7 +4,6 @@ import { BlockContext } from "../store/blockContext";
 import { BlockDescriptor } from "../types";
 import { Droppable } from "react-beautiful-dnd";
 import DraggableList from "./DraggableList";
-import { isBlock } from "typescript";
 import Configuration from "./Configuration";
 
 function ConfigControl() {

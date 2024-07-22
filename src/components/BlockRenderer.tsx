@@ -1,16 +1,5 @@
 import React from "react";
-
-export enum BlockDescriptor {
-  Name = "Name",
-  ContactInfo = "ContactInfo",
-  Education = "Education",
-  Skills = "Skills",
-  Experience = "Experience",
-  Description = "Description",
-  Certifications = "Certifications",
-  References = "References",
-  Title = "Title",
-}
+import { BlockDescriptor } from "../types";
 
 interface BlockProps {
   content: BlockDescriptor;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   MenuItem,
   Select,
@@ -10,7 +10,7 @@ import {
   Box,
 } from "@mui/material";
 
-const DocumentConfig = () => {
+const SectionConfig = () => {
   const [formValues, setFormValues] = useState({
     fontSize: 14,
     fontType: "Arial",
@@ -69,7 +69,7 @@ const DocumentConfig = () => {
       </FormControl>
 
       <FormControl fullWidth margin="normal">
-        <InputLabel>Color Scheme</InputLabel>
+        <InputLabel>Override Color</InputLabel>
         <Select
           name="colorScheme"
           value={formValues.colorScheme}
@@ -102,4 +102,4 @@ const DocumentConfig = () => {
   );
 };
 
-export default DocumentConfig;
+export default SectionConfig;

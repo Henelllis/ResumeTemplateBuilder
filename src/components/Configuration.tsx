@@ -1,12 +1,13 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import CollapsibleCard from "./CollapsibleCard";
-import { CardContent, Typography } from "@mui/material";
 import { TemplateBuilderContext } from "../store/TemplateBuilderContext";
 import { BlockContext } from "../store/blockContext";
 import DocumentConfig from "./DocumentConfig";
+import SectionConfig from "./SectionConfig";
+import { blockConfigMap, BlockDescriptor } from "../types";
 
 function Configuration() {
-  const { selectedSection, setSelection } = useContext(TemplateBuilderContext);
+  const { selectedSection } = useContext(TemplateBuilderContext);
   const { blocks } = useContext(BlockContext);
 
   if (!selectedSection) {
@@ -43,9 +44,7 @@ function Configuration() {
           title={selectedSection}
           isAutomaticallyExpanded
         >
-          <CardContent>
-            <Typography paragraph>Additional content can go here.</Typography>
-          </CardContent>
+          <SectionConfig />
         </CollapsibleCard>
         {blockConfigs.map((block) => (
           <CollapsibleCard
@@ -53,9 +52,7 @@ function Configuration() {
             title={block.content}
             isAutomaticallyExpanded={false}
           >
-            <CardContent>
-              <Typography paragraph>Additional content can go here.</Typography>
-            </CardContent>
+            <BlockConfig blockDescriptor={block.content} />
           </CollapsibleCard>
         ))}
       </div>
@@ -66,3 +63,26 @@ function Configuration() {
 }
 
 export default Configuration;
+
+function BlockConfig({
+  blockDescriptor,
+}: {
+  blockDescriptor: BlockDescriptor;
+}) {
+  const configType = blockConfigMap[blockDescriptor];
+
+  switch (configType) {
+    case "TEXT":
+      return <SectionConfig />;
+    case "CONTACT":
+      return <SectionConfig />;
+    case "TIME_SPAN":
+      return <SectionConfig />;
+    case "LIST":
+      return <SectionConfig />;
+    case "DETAIL":
+      return <SectionConfig />;
+    default:
+      return null;
+  }
+}

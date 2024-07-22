@@ -75,6 +75,10 @@ export enum BlockDescriptor {
   "Description" = "Description",
   "Certifications" = "Certifications",
   "References" = "References",
+  "header" = "header",
+  "document" = "document",
+  "primary" = "primary",
+  "secondary" = "secondary",
 }
 
 export type TemplateBuilderMode = "BLOCK_PLACEMENT_EDIT" | "HTML_EDIT";
@@ -82,15 +86,13 @@ export type TemplateBuilderMode = "BLOCK_PLACEMENT_EDIT" | "HTML_EDIT";
 export enum ConfigType {
   "LIST" = "LIST",
   "DETAIL" = "DETAIL",
-  "DOCUMENT" = "DOCUMENT",
   "TIME_SPAN" = "TIME_SPAN",
   "TEXT" = "TEXT",
   "EVENT" = "EVENT",
   "PERIOD_OF_TIME" = "PERIOD_OF_TIME",
   "CONTACT" = "CONTACT",
-  "HEADER" = "HEADER",
-  "PRIMARY" = "PRIMARY",
-  "SECONDARY" = "SECONDARY",
+  "SECTION" = "PRIMARY",
+  "DOCUMENT" = "DOCUMENT",
 }
 
 export const ConfigLayouts = {
@@ -279,5 +281,119 @@ export const configState = {
     email: "Contact Email",
     phone: "Contact Phone",
     address: "Contact Address",
+  },
+};
+
+export const blockConfigMap: Record<BlockDescriptor, ConfigType> = {
+  [BlockDescriptor.Name]: ConfigType.TEXT,
+  [BlockDescriptor.ContactInfo]: ConfigType.CONTACT,
+  [BlockDescriptor.Education]: ConfigType.TIME_SPAN,
+  [BlockDescriptor.Experience]: ConfigType.TIME_SPAN,
+  [BlockDescriptor.Skills]: ConfigType.LIST,
+  [BlockDescriptor.Description]: ConfigType.TEXT,
+  [BlockDescriptor.Certifications]: ConfigType.DETAIL,
+  [BlockDescriptor.References]: ConfigType.DETAIL,
+  [BlockDescriptor.Title]: ConfigType.TEXT,
+  [BlockDescriptor.header]: ConfigType.SECTION,
+  [BlockDescriptor.document]: ConfigType.DOCUMENT,
+  [BlockDescriptor.primary]: ConfigType.SECTION,
+  [BlockDescriptor.secondary]: ConfigType.SECTION,
+};
+
+// Define the state for each block
+export type BlockState = {
+  fontSize: number;
+  fontType: string;
+  colorScheme: string;
+  margin: number;
+};
+
+// Define a type for the block configuration
+export type BlockConfig = {
+  id: string;
+  content: BlockDescriptor;
+  configType: ConfigType;
+  state: BlockState;
+};
+
+// Create the map with BlockDescriptor as the key and BlockState as the value
+const blockStateMap: Record<BlockDescriptor, BlockState> = {
+  [BlockDescriptor.Name]: {
+    fontSize: 14,
+    fontType: "Arial",
+    colorScheme: "light",
+    margin: 1,
+  },
+  [BlockDescriptor.ContactInfo]: {
+    fontSize: 14,
+    fontType: "Arial",
+    colorScheme: "light",
+    margin: 1,
+  },
+  [BlockDescriptor.Education]: {
+    fontSize: 14,
+    fontType: "Arial",
+    colorScheme: "light",
+    margin: 1,
+  },
+  [BlockDescriptor.Experience]: {
+    fontSize: 14,
+    fontType: "Arial",
+    colorScheme: "light",
+    margin: 1,
+  },
+  [BlockDescriptor.Skills]: {
+    fontSize: 14,
+    fontType: "Arial",
+    colorScheme: "light",
+    margin: 1,
+  },
+  [BlockDescriptor.Description]: {
+    fontSize: 14,
+    fontType: "Arial",
+    colorScheme: "light",
+    margin: 1,
+  },
+  [BlockDescriptor.Certifications]: {
+    fontSize: 14,
+    fontType: "Arial",
+    colorScheme: "light",
+    margin: 1,
+  },
+  [BlockDescriptor.References]: {
+    fontSize: 14,
+    fontType: "Arial",
+    colorScheme: "light",
+    margin: 1,
+  },
+  [BlockDescriptor.Title]: {
+    fontSize: 14,
+    fontType: "Arial",
+    colorScheme: "light",
+    margin: 1,
+  },
+  [BlockDescriptor.header]: {
+    fontSize: 16,
+    fontType: "Helvetica",
+    colorScheme: "light",
+    margin: 2,
+  },
+  [BlockDescriptor.document]: {
+    fontSize: 12,
+    fontType: "Arial",
+    colorScheme: "light",
+    margin: 1,
+  },
+  [BlockDescriptor.primary]: {
+    fontSize: 14,
+    fontType: "Arial",
+    colorScheme: "dark",
+    margin: 1,
+  },
+  [BlockDescriptor.secondary]: {
+    fontSize: 14,
+    fontType: "Arial",
+    colorScheme: "light",
+    margin: 1,
   },
 };

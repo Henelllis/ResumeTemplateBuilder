@@ -407,3 +407,84 @@ export enum SCREEN {
   "RESUME_TO_EDIT" = "RESUME_TO_EDIT",
   "RESUME_FILLING_ADD_OR_EDIT" = "RESUME_FILLING_ADD_OR_EDIT",
 }
+
+const template_0 = {
+  Name: {
+    fontSize: 15,
+    fontType: "Arial",
+    colorScheme: "Light",
+    margin: 0,
+  },
+  ContactInfo: {
+    fontSize: 15,
+    fontType: "Arial",
+    colorScheme: "Light",
+    margin: 0,
+  },
+  Education: {
+    fontSize: 15,
+    fontType: "Arial",
+    colorScheme: "Light",
+    margin: 0,
+  },
+  Experience: {
+    fontSize: 15,
+    fontType: "Arial",
+    colorScheme: "Light",
+    margin: 0,
+  },
+  Skills: {
+    fontSize: 15,
+    fontType: "Arial",
+    colorScheme: "Light",
+    margin: 0,
+  },
+  Description: {
+    fontSize: 15,
+    fontType: "Arial",
+    colorScheme: "Light",
+    margin: 0,
+  },
+  Certifications: {
+    fontSize: 15,
+    fontType: "Arial",
+    colorScheme: "Light",
+    margin: 0,
+  },
+  References: {
+    fontSize: 15,
+    fontType: "Arial",
+    colorScheme: "Light",
+    margin: 0,
+  },
+  Title: {
+    fontSize: 15,
+    fontType: "Arial",
+    colorScheme: "Light",
+    margin: 0,
+  },
+  header: {
+    fontSize: 15,
+    fontType: "Helvetica",
+    colorScheme: "Light",
+    margin: 2,
+  },
+  document: {
+    fontSize: 15,
+    fontType: "Times New Roman",
+    colorScheme: "Blue",
+    margin: 0,
+  },
+  primary: {
+    fontSize: 15,
+    fontType: "Arial",
+    colorScheme: "dark",
+    margin: 0,
+  },
+  secondary: {
+    fontSize: 15,
+    fontType: "Verdana",
+    colorScheme: "Light",
+    margin: 0,
+  },
+};

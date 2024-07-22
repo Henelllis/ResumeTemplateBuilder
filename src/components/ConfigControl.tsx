@@ -1,15 +1,29 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { TemplateBuilderContext } from "../store/TemplateBuilderContext";
 import { BlockContext } from "../store/blockContext";
 import { BlockDescriptor } from "../types";
 import { Droppable } from "react-beautiful-dnd";
 import DraggableList from "./DraggableList";
 import Configuration from "./Configuration";
+import { Box, TextField, Typography } from "@mui/material";
 
 function ConfigControl() {
-  const { mode, setMode, selectedSection } = useContext(TemplateBuilderContext);
+  const {
+    mode,
+    setMode,
+    selectedSection,
+    currentWorkingTemplate,
+    templates,
+    setTemplates,
+  } = useContext(TemplateBuilderContext);
 
   const { blocks, setBlocks } = useContext(BlockContext);
+
+  const [name, setName] = useState("");
+
+  const handleChange = (event: any) => {
+    setName(event.target.value);
+  };
 
   const isValidToSwitchToEdit = () => {
     if (
@@ -41,14 +55,31 @@ function ConfigControl() {
         padding: "20px",
         borderRadius: "10px",
         boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
-        width: "50%",
+        width: "100%",
       }}
     >
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          mt: 2,
+        }}
+      >
+        <TextField
+          label="Template Name"
+          variant="outlined"
+          value={name}
+          onChange={handleChange}
+          sx={{ mb: 2 }}
+        />
+      </Box>
+
       <div
         style={{
           display: "flex",
           justifyContent: "space-between",
-          width: "60%",
+          width: "100%",
         }}
       >
         <h2 style={{ textAlign: "center" }}>
@@ -78,6 +109,37 @@ function ConfigControl() {
           }}
         >
           {isBlockMode ? "Edit Mode" : "Block Placement Mode"}
+        </button>
+
+        <button
+          disabled={!isValidToSwitchToEdit()}
+          onClick={() => {
+            if (!currentWorkingTemplate) {
+              return;
+            }
+
+            console.log(
+              "currentWorkingTemplate",
+              JSON.stringify(currentWorkingTemplate, null, 2)
+            );
+            setTemplates({
+              templates: [...templates, currentWorkingTemplate],
+            });
+          }}
+          style={{
+            padding: "10px",
+            borderRadius: "20px",
+            width: "200px",
+            border: "none",
+            backgroundColor:
+              isValidToSwitchToEdit() && name.length >= 5 ? "blue" : "grey",
+            boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+            textAlign: "center",
+            color: "white",
+            cursor: "pointer",
+          }}
+        >
+          SAVE TEMPLATE
         </button>
       </div>
 

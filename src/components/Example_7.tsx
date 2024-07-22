@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import {
   BlockDescriptor,
   BlockListKey,
+  blockStateMap,
   ConfigType,
   Item,
   TemplateBuilderMode,
@@ -17,7 +18,9 @@ import ConfigControl from "./ConfigControl";
 
 const Example_7: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
   const { blocks, blockRules, setBlocks } = useContext(BlockContext);
-  const { mode, setMode } = useContext(TemplateBuilderContext);
+  const { currentWorkingTemplate, setCurrentWorkingTemplate } = useContext(
+    TemplateBuilderContext
+  );
 
   const [dpi, setDpi] = useState(96); // Default DPI
 
@@ -71,6 +74,9 @@ const Example_7: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
         },
       ],
     });
+    setCurrentWorkingTemplate({
+      template: blockStateMap,
+    });
   }, []);
 
   useEffect(() => {
@@ -102,8 +108,6 @@ const Example_7: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
 
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
-
-    console.log(JSON.stringify(source), JSON.stringify(destination));
 
     if (!destination) {
       return;

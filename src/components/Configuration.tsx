@@ -2,7 +2,6 @@ import { useContext } from "react";
 import CollapsibleCard from "./CollapsibleCard";
 import { TemplateBuilderContext } from "../store/TemplateBuilderContext";
 import { BlockContext } from "../store/blockContext";
-import DocumentConfig from "./DocumentConfig";
 import SectionConfig from "./SectionConfig";
 import { blockConfigMap, BlockDescriptor } from "../types";
 
@@ -18,7 +17,7 @@ function Configuration() {
           title="DOCUMENT"
           isAutomaticallyExpanded
         >
-          <DocumentConfig />
+          <SectionConfig blockDescriptor={BlockDescriptor.document} />
         </CollapsibleCard>
       </div>
     );
@@ -44,7 +43,7 @@ function Configuration() {
           title={selectedSection}
           isAutomaticallyExpanded
         >
-          <SectionConfig />
+          <BlockConfig blockDescriptor={selectedSection as BlockDescriptor} />
         </CollapsibleCard>
         {blockConfigs.map((block) => (
           <CollapsibleCard
@@ -73,16 +72,16 @@ function BlockConfig({
 
   switch (configType) {
     case "TEXT":
-      return <SectionConfig />;
+      return <SectionConfig blockDescriptor={blockDescriptor} />;
     case "CONTACT":
-      return <SectionConfig />;
+      return <SectionConfig blockDescriptor={blockDescriptor} />;
     case "TIME_SPAN":
-      return <SectionConfig />;
+      return <SectionConfig blockDescriptor={blockDescriptor} />;
     case "LIST":
-      return <SectionConfig />;
+      return <SectionConfig blockDescriptor={blockDescriptor} />;
     case "DETAIL":
-      return <SectionConfig />;
+      return <SectionConfig blockDescriptor={blockDescriptor} />;
     default:
-      return null;
+      return <SectionConfig blockDescriptor={blockDescriptor} />;
   }
 }

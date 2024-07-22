@@ -317,7 +317,7 @@ export type BlockConfig = {
 };
 
 // Create the map with BlockDescriptor as the key and BlockState as the value
-const blockStateMap: Record<BlockDescriptor, BlockState> = {
+export const blockStateMap: Record<BlockDescriptor, BlockState> = {
   [BlockDescriptor.Name]: {
     fontSize: 14,
     fontType: "Arial",

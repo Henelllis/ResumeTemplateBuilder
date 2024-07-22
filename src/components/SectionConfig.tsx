@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   MenuItem,
   Select,
@@ -9,14 +9,24 @@ import {
   Slider,
   Box,
 } from "@mui/material";
+import { TemplateBuilderContext } from "../store/TemplateBuilderContext";
+import { BlockDescriptor } from "../types";
 
-const SectionConfig = () => {
+const SectionConfig = ({
+  blockDescriptor,
+}: {
+  blockDescriptor: BlockDescriptor;
+}) => {
   const [formValues, setFormValues] = useState({
     fontSize: 14,
     fontType: "Arial",
     colorScheme: "light",
     margin: 1,
   });
+
+  const { currentWorkingTemplate, setCurrentWorkingTemplate } = useContext(
+    TemplateBuilderContext
+  );
 
   const handleInputChange = (event: any) => {
     const { name, value, type, checked } = event.target;
@@ -35,8 +45,17 @@ const SectionConfig = () => {
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
+    console.log("BEFORE Form Values:", currentWorkingTemplate);
+
     // Handle form submission logic here
-    console.log("Form Values:", formValues);
+    if (!currentWorkingTemplate) return;
+    setCurrentWorkingTemplate({
+      template: {
+        ...currentWorkingTemplate,
+        [blockDescriptor]: formValues,
+      },
+    });
+    console.log("AFTER Form Values:", currentWorkingTemplate);
   };
 
   return (

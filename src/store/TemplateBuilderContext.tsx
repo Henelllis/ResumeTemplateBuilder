@@ -77,7 +77,6 @@ function TemplateBuilderContextProvider({ children }: { children: any }) {
     > | null>(null);
 
   function setMode(args: { mode: TemplateBuilderMode }): void {
-    console.log(args);
     setModeValue({
       mode: args.mode,
     });

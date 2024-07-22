@@ -14,7 +14,9 @@ import BlockTemplateResumePreview from "./BlockTemplateResumePreview";
 import { TemplateBuilderContext } from "../store/TemplateBuilderContext";
 import ConfigControl from "./ConfigControl";
 
-const Example_7: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
+const TemplateResumeBuilder: React.FC<{ layout: TemplateLayout }> = ({
+  layout,
+}) => {
   const [setRender, setRenderState] = useState(false);
   const { blocks, blockRules, setBlocks } = useContext(BlockContext);
   const { currentWorkingTemplate, setCurrentWorkingTemplate } = useContext(
@@ -194,4 +196,4 @@ const Example_7: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
   );
 };
 
-export default Example_7;
+export default TemplateResumeBuilder;

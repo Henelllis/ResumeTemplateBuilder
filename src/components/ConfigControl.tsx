@@ -51,14 +51,15 @@ function ConfigControl() {
           width: "60%",
         }}
       >
-        <h2>{isBlockMode ? "Block Placement Mode" : "Edit Mode"}</h2>
+        <h2 style={{ textAlign: "center" }}>
+          {isBlockMode ? "Block Placement Mode" : "Edit Mode"}
+        </h2>
         <button
           disabled={!isValidToSwitchToEdit()}
           onClick={() => {
             const newMode = isBlockMode ? "HTML_EDIT" : "BLOCK_PLACEMENT_EDIT";
 
             if (isValidToSwitchToEdit()) {
-              console.log("Switching to", newMode);
               setMode({
                 mode: newMode,
               });

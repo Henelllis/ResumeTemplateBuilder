@@ -397,3 +397,13 @@ export const blockStateMap: Record<BlockDescriptor, BlockState> = {
     margin: 0,
   },
 };
+
+export enum SCREEN {
+  "HOME" = "HOME",
+  "TEMPLATE_BUILDER" = "TEMPLATE_BUILDER",
+  "TEMPLATES_TO_EDIT" = "TEMPLATES_TO_EDIT",
+  "TEMPLATE_ADD_OR_EDIT" = "TEMPLATE_ADD_OR_EDIT",
+  "RESUME_FILLING" = "RESUME_FILLING",
+  "RESUME_TO_EDIT" = "RESUME_TO_EDIT",
+  "RESUME_FILLING_ADD_OR_EDIT" = "RESUME_FILLING_ADD_OR_EDIT",
+}

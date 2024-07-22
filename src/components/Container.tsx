@@ -8,12 +8,14 @@ function Container({
   backgroundColor,
   children,
   droppableInnerRef,
+  overrideStyles,
   section,
   droppableProps,
 }: {
   widthInPixels: number;
   heightInPixels: number;
   children: React.ReactNode;
+  overrideStyles?: React.CSSProperties;
   section?: "header" | "primary" | "secondary";
   backgroundColor?: string;
   droppableProps?: DroppableProvidedProps;
@@ -39,6 +41,7 @@ function Container({
         alignItems: "center",
         backgroundColor: backgroundColor || "transparent",
         borderBottom: "1px solid black",
+        ...overrideStyles,
       }}
     >
       {children}

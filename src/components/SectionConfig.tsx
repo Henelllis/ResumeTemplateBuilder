@@ -18,10 +18,10 @@ const SectionConfig = ({
   blockDescriptor: BlockDescriptor;
 }) => {
   const [formValues, setFormValues] = useState({
-    fontSize: 14,
+    fontSize: 15,
     fontType: "Arial",
-    colorScheme: "light",
-    margin: 1,
+    colorScheme: "Light",
+    margin: 0,
   });
 
   const { currentWorkingTemplate, setCurrentWorkingTemplate } = useContext(
@@ -34,6 +34,18 @@ const SectionConfig = ({
       ...formValues,
       [name]: type === "checkbox" ? checked : value,
     });
+
+    if (!currentWorkingTemplate) return;
+
+    setCurrentWorkingTemplate({
+      template: {
+        ...currentWorkingTemplate,
+        [blockDescriptor]: {
+          ...formValues,
+          [name]: type === "checkbox" ? checked : value,
+        },
+      },
+    });
   };
 
   const handleSliderChange = (name: any) => (event: any, newValue: any) => {
@@ -41,25 +53,22 @@ const SectionConfig = ({
       ...formValues,
       [name]: newValue,
     });
-  };
 
-  const handleSubmit = (event: any) => {
-    event.preventDefault();
-    console.log("BEFORE Form Values:", currentWorkingTemplate);
-
-    // Handle form submission logic here
     if (!currentWorkingTemplate) return;
+
     setCurrentWorkingTemplate({
       template: {
         ...currentWorkingTemplate,
-        [blockDescriptor]: formValues,
+        [blockDescriptor]: {
+          ...formValues,
+          [name]: newValue,
+        },
       },
     });
-    console.log("AFTER Form Values:", currentWorkingTemplate);
   };
 
   return (
-    <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3, padding: 5 }}>
+    <Box component="form" sx={{ mt: 3, padding: 5 }}>
       <FormControl fullWidth margin="normal">
         <InputLabel>Font Type</InputLabel>
         <Select
@@ -94,10 +103,10 @@ const SectionConfig = ({
           value={formValues.colorScheme}
           onChange={handleInputChange}
         >
-          <MenuItem value="light">Light</MenuItem>
-          <MenuItem value="dark">Dark</MenuItem>
-          <MenuItem value="blue">Blue</MenuItem>
-          <MenuItem value="green">Green</MenuItem>
+          <MenuItem value="Light">Light</MenuItem>
+          <MenuItem value="Dark">Dark</MenuItem>
+          <MenuItem value="Blue">Blue</MenuItem>
+          <MenuItem value="Green">Green</MenuItem>
         </Select>
       </FormControl>
 
@@ -113,10 +122,38 @@ const SectionConfig = ({
           valueLabelDisplay="auto"
         />
       </FormControl>
-
-      <Button variant="contained" color="primary" type="submit">
-        Save Customization
-      </Button>
+      {blockDescriptor === BlockDescriptor.header && (
+        <div>
+          <input
+            accept="image/*"
+            style={{ display: "none" }}
+            id="background-image-upload"
+            type="file"
+            onChange={() => {}}
+          />
+          <label htmlFor="background-image-upload">
+            <Button variant="contained" color="primary" component="span">
+              Add Background Image
+            </Button>
+          </label>
+        </div>
+      )}
+      {blockDescriptor === BlockDescriptor.document && (
+        <div>
+          <input
+            accept="image/*"
+            style={{ display: "none" }}
+            id="background-image-upload"
+            type="file"
+            onChange={() => {}}
+          />
+          <label htmlFor="background-image-upload">
+            <Button variant="contained" color="primary" component="span">
+              Add WaterMark Image
+            </Button>
+          </label>
+        </div>
+      )}
     </Box>
   );
 };

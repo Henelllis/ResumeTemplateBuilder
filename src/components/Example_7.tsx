@@ -5,24 +5,27 @@ import {
   blockStateMap,
   ConfigType,
   Item,
-  TemplateBuilderMode,
   TemplateLayout,
 } from "../types";
-import { DragDropContext, DropResult, Droppable } from "react-beautiful-dnd";
+import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import "./document.css";
 import { BlockContext } from "../store/blockContext";
-import DraggableList from "./DraggableList";
 import BlockTemplateResumePreview from "./BlockTemplateResumePreview";
 import { TemplateBuilderContext } from "../store/TemplateBuilderContext";
 import ConfigControl from "./ConfigControl";
 
 const Example_7: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
+  const [setRender, setRenderState] = useState(false);
   const { blocks, blockRules, setBlocks } = useContext(BlockContext);
   const { currentWorkingTemplate, setCurrentWorkingTemplate } = useContext(
     TemplateBuilderContext
   );
 
   const [dpi, setDpi] = useState(96); // Default DPI
+  useEffect(() => {
+    console.log("SET RENDER");
+    setRenderState(!setRender);
+  }, [currentWorkingTemplate]);
 
   useEffect(() => {
     setBlocks({
@@ -164,10 +167,20 @@ const Example_7: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
     }
   };
 
+  if (!currentWorkingTemplate) return null;
+
+  const style = currentWorkingTemplate[BlockDescriptor.document];
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="app">
-        <div className="document-container">
+        <div
+          className="document-container"
+          style={{
+            fontSize: style.fontSize,
+            fontFamily: style.fontType,
+          }}
+        >
           <BlockTemplateResumePreview
             widthInInches={widthInInches}
             heightInInches={heightInInches}

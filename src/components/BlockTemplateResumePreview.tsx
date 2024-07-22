@@ -1,9 +1,9 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import Container from "./Container";
 import { Droppable } from "react-beautiful-dnd";
 import DraggableList from "./DraggableList";
-import { Item } from "../types";
-import { inchesToPixels } from "../utils";
+import { BlockDescriptor, Item } from "../types";
+import { getPrimaryAndSecondaryColor, inchesToPixels } from "../utils";
 import { TemplateBuilderContext } from "../store/TemplateBuilderContext";
 import BlockRenderer from "./BlockRenderer";
 
@@ -24,6 +24,7 @@ function BlockTemplateResumePreview({
 }) {
   const { mode, setSelection } = useContext(TemplateBuilderContext);
 
+  const { currentWorkingTemplate } = useContext(TemplateBuilderContext);
   const headerHeightInInches = 2;
   const bodyHeightInInches = heightInInches - headerHeightInInches;
 
@@ -38,11 +39,24 @@ function BlockTemplateResumePreview({
 
   const isBlockMode = mode === "BLOCK_PLACEMENT_EDIT";
 
+  if (!currentWorkingTemplate) {
+    return null;
+  }
+
+  const style = currentWorkingTemplate[BlockDescriptor.document];
+  const [primaryColor, secondaryColor] = getPrimaryAndSecondaryColor(
+    style.colorScheme
+  );
+
+  console.log("primaryColor" + primaryColor);
+  console.log("secondaryColor" + secondaryColor);
   return (
     <Container
       widthInPixels={widthInPixels}
       heightInPixels={heightInPixels}
-      backgroundColor="red"
+      overrideStyles={{
+        padding: style.margin * -10,
+      }}
     >
       {isBlockMode ? (
         <Droppable droppableId={"headerBlockList"}>
@@ -67,6 +81,7 @@ function BlockTemplateResumePreview({
           heightInPixels={headerHeightInPixels}
           backgroundColor="lightgrey"
           section="header"
+          overrideStyles={{ backgroundColor: primaryColor }}
         >
           {blocks.headerBlockList.map((block) => (
             <BlockRenderer isHeader key={block.id} content={block.content} />
@@ -108,6 +123,7 @@ function BlockTemplateResumePreview({
               heightInPixels={bodyHeightInPixels}
               backgroundColor="#FAF9F6"
               section="primary"
+              overrideStyles={{ backgroundColor: secondaryColor }}
             >
               {blocks.primaryBlockList.map((block) => (
                 <BlockRenderer
@@ -141,6 +157,7 @@ function BlockTemplateResumePreview({
               heightInPixels={bodyHeightInPixels}
               backgroundColor="wheat"
               section="secondary"
+              overrideStyles={{ backgroundColor: secondaryColor }}
             >
               {blocks.secondaryBlockList.map((block) => (
                 <BlockRenderer

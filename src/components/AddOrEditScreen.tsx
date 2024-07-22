@@ -77,7 +77,7 @@ const AddOrEditScreen: React.FC = () => {
               }
 
               if (screen === "RESUME_FILLING_ADD_OR_EDIT") {
-                setScreen(SCREEN.RESUME_FILLING);
+                setScreen(SCREEN.TEMPLATE_TO_CHOOSE_FOR_FILLING);
               }
             }}
           >
@@ -103,10 +103,12 @@ const AddOrEditScreen: React.FC = () => {
             onClick={() => {
               if (screen === "TEMPLATE_ADD_OR_EDIT") {
                 setScreen(SCREEN.TEMPLATES_TO_EDIT);
+                return;
               }
 
               if (screen === "RESUME_FILLING_ADD_OR_EDIT") {
                 setScreen(SCREEN.RESUME_TO_EDIT);
+                return;
               }
             }}
           >

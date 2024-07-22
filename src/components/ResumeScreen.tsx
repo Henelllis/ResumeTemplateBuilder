@@ -18,14 +18,12 @@ import { IconButton } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { AppContext } from "../store/AppContext";
 
-const TemplateResumeBuilder: React.FC<{ layout: TemplateLayout }> = ({
-  layout,
-}) => {
+const ResumeScreen: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
   const { blocks, blockRules, setBlocks } = useContext(BlockContext);
   const { mode, setMode, currentWorkingTemplate, setCurrentWorkingTemplate } =
     useContext(TemplateBuilderContext);
 
-  const { setScreen, templateToUse } = useContext(AppContext);
+  const { screen, setScreen, templateToUse } = useContext(AppContext);
 
   const [dpi, setDpi] = useState(96); // Default DPI
 
@@ -228,10 +226,14 @@ const TemplateResumeBuilder: React.FC<{ layout: TemplateLayout }> = ({
             blocks={blocks}
           />
         </div>
-        <ConfigControl />
+        {screen === SCREEN.TEMPLATE_BUILDER ? (
+          <ConfigControl />
+        ) : (
+          <div>FILL IN RESUME</div>
+        )}
       </DragDropContext>
     </div>
   );
 };
 
-export default TemplateResumeBuilder;
+export default ResumeScreen;

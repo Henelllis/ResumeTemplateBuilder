@@ -1,11 +1,12 @@
 import { useContext, useState } from "react";
 import { TemplateBuilderContext } from "../store/TemplateBuilderContext";
 import { BlockContext } from "../store/blockContext";
-import { BlockDescriptor } from "../types";
+import { BlockDescriptor, SCREEN } from "../types";
 import { Droppable } from "react-beautiful-dnd";
 import DraggableList from "./DraggableList";
 import Configuration from "./Configuration";
 import { Box, TextField, Typography } from "@mui/material";
+import { AppContext } from "../store/AppContext";
 
 function ConfigControl() {
   const {
@@ -18,6 +19,7 @@ function ConfigControl() {
   } = useContext(TemplateBuilderContext);
 
   const { blocks, setBlocks } = useContext(BlockContext);
+  const { setScreen } = useContext(AppContext);
 
   const [name, setName] = useState("");
 
@@ -120,11 +122,36 @@ function ConfigControl() {
 
             console.log(
               "currentWorkingTemplate",
-              JSON.stringify(currentWorkingTemplate, null, 2)
+              JSON.stringify(
+                {
+                  id: name,
+                  name: name,
+                  layout: "HEADER_PRIMARY",
+                  styles: currentWorkingTemplate,
+                  headerBlocks: blocks.headerBlockList,
+                  primaryBlocks: blocks.primaryBlockList,
+                  secondaryBlocks: blocks.secondaryBlockList,
+                },
+                null,
+                2
+              )
             );
             setTemplates({
-              templates: [...templates, currentWorkingTemplate],
+              templates: [
+                ...templates,
+                {
+                  id: name,
+                  name: name,
+                  layout: "HEADER_PRIMARY",
+                  styles: currentWorkingTemplate,
+                  headerBlocks: blocks.headerBlockList,
+                  primaryBlocks: blocks.primaryBlockList,
+                  secondaryBlocks: blocks.secondaryBlockList,
+                },
+              ],
             });
+            console.log("CHANGE SCREEN TO HOME");
+            setScreen(SCREEN.HOME);
           }}
           style={{
             padding: "10px",

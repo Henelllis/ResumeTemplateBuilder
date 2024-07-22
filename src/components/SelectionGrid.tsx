@@ -8,15 +8,7 @@ import {
   CardMedia,
 } from "@mui/material";
 import BlueprintIcon from "@mui/icons-material/Architecture";
-
-const templates = [
-  { id: 1, title: "Template 1", description: "Description of Template 1" },
-  { id: 2, title: "Template 2", description: "Description of Template 2" },
-  { id: 3, title: "Template 3", description: "Description of Template 3" },
-  { id: 4, title: "Template 4", description: "Description of Template 4" },
-  { id: 5, title: "Template 5", description: "Description of Template 5" },
-  // Add more templates as needed
-];
+import { AppContext } from "../store/AppContext";
 
 const SelectionGrid: React.FC = () => {
   return (

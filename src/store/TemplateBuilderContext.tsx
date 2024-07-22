@@ -1,10 +1,15 @@
 import { createContext, useState } from "react";
-import { BlockDescriptor, BlockState, TemplateBuilderMode } from "../types";
+import {
+  BlockDescriptor,
+  BlockState,
+  Template,
+  TemplateBuilderMode,
+} from "../types";
 
 export interface TemplateBuilderContextValue {
   mode: TemplateBuilderMode;
   selectedSection: "header" | "primary" | "secondary" | null;
-  templates: Array<Record<BlockDescriptor, BlockState>>;
+  templates: Array<Template>;
   currentWorkingTemplate: Record<BlockDescriptor, BlockState> | null;
   setMode: (args: { mode: TemplateBuilderMode }) => void;
   setSelection: (args: {
@@ -13,9 +18,7 @@ export interface TemplateBuilderContextValue {
   setCurrentWorkingTemplate: (args: {
     template: Record<BlockDescriptor, BlockState>;
   }) => void;
-  setTemplates: (args: {
-    templates: Array<Record<BlockDescriptor, BlockState>>;
-  }) => void;
+  setTemplates: (args: { templates: Array<Template> }) => void;
 }
 
 export const TemplateBuilderContext =
@@ -98,9 +101,7 @@ function TemplateBuilderContextProvider({ children }: { children: any }) {
     });
   }
 
-  function setTemplates(args: {
-    templates: Array<Record<BlockDescriptor, BlockState>>;
-  }): void {
+  function setTemplates(args: { templates: Array<Template> }): void {
     setTemplatesValue({
       templates: args.templates,
     });

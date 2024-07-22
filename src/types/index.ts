@@ -229,6 +229,7 @@ export interface Template {
   headerBlocks: Item[]; // Blocks in the header
   primaryBlocks: Item[]; // Blocks in the primary section
   secondaryBlocks: Item[]; // Blocks in the secondary section
+  selectionBlocks: Item[]; // Blocks that can be added to the template
   styles: Record<BlockDescriptor, BlockState>;
 }
 

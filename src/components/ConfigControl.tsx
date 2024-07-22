@@ -127,37 +127,45 @@ function ConfigControl() {
               return;
             }
 
-            console.log(
-              "currentWorkingTemplate",
-              JSON.stringify(
-                {
-                  id: name,
-                  name: name,
-                  layout: "HEADER_PRIMARY",
-                  styles: currentWorkingTemplate,
-                  headerBlocks: blocks.headerBlockList,
-                  primaryBlocks: blocks.primaryBlockList,
-                  secondaryBlocks: blocks.secondaryBlockList,
-                },
-                null,
-                2
-              )
-            );
-            setTemplates({
-              templates: [
-                ...templates,
-                {
-                  id: name,
-                  name: name,
-                  layout: "HEADER_PRIMARY",
-                  styles: currentWorkingTemplate,
-                  headerBlocks: blocks.headerBlockList,
-                  primaryBlocks: blocks.primaryBlockList,
-                  secondaryBlocks: blocks.secondaryBlockList,
-                },
-              ],
-            });
-            console.log("CHANGE SCREEN TO HOME");
+            if (templateToUse) {
+              //find the name of the template and ovveride it
+              const index = templates.findIndex(
+                (item) => item.id === templateToUse.id
+              );
+
+              const newTemplates = [...templates];
+
+              newTemplates[index] = {
+                id: templateToUse.id,
+                name: name,
+                layout: "HEADER_PRIMARY",
+                styles: currentWorkingTemplate,
+                headerBlocks: blocks.headerBlockList,
+                primaryBlocks: blocks.primaryBlockList,
+                secondaryBlocks: blocks.secondaryBlockList,
+                selectionBlocks: blocks.selectionBlockList,
+              };
+
+              setTemplates({
+                templates: newTemplates,
+              });
+            } else {
+              setTemplates({
+                templates: [
+                  ...templates,
+                  {
+                    id: name,
+                    name: name,
+                    layout: "HEADER_PRIMARY",
+                    styles: currentWorkingTemplate,
+                    headerBlocks: blocks.headerBlockList,
+                    primaryBlocks: blocks.primaryBlockList,
+                    secondaryBlocks: blocks.secondaryBlockList,
+                    selectionBlocks: blocks.selectionBlockList,
+                  },
+                ],
+              });
+            }
             setScreen(SCREEN.HOME);
             setMode({
               mode: "BLOCK_PLACEMENT_EDIT",

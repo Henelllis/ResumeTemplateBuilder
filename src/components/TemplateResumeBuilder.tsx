@@ -21,7 +21,6 @@ import { AppContext } from "../store/AppContext";
 const TemplateResumeBuilder: React.FC<{ layout: TemplateLayout }> = ({
   layout,
 }) => {
-  const [setRender, setRenderState] = useState(false);
   const { blocks, blockRules, setBlocks } = useContext(BlockContext);
   const { mode, setMode, currentWorkingTemplate, setCurrentWorkingTemplate } =
     useContext(TemplateBuilderContext);
@@ -31,17 +30,12 @@ const TemplateResumeBuilder: React.FC<{ layout: TemplateLayout }> = ({
   const [dpi, setDpi] = useState(96); // Default DPI
 
   useEffect(() => {
-    console.log("SET RENDER");
-    setRenderState(!setRender);
-  }, [currentWorkingTemplate]);
-
-  useEffect(() => {
     if (templateToUse) {
       setBlocks({
         headerBlockList: templateToUse.headerBlocks,
         primaryBlockList: templateToUse.primaryBlocks,
         secondaryBlockList: templateToUse.secondaryBlocks,
-        selectionBlockList: [], //TODO : Add selection block list KEEP TRACK OF UNUSED BLOCKS
+        selectionBlockList: templateToUse.selectionBlocks, //TODO : Add selection block list KEEP TRACK OF UNUSED BLOCKS
       });
       setCurrentWorkingTemplate({
         template: templateToUse.styles,

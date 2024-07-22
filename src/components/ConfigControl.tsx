@@ -152,6 +152,9 @@ function ConfigControl() {
             });
             console.log("CHANGE SCREEN TO HOME");
             setScreen(SCREEN.HOME);
+            setMode({
+              mode: "BLOCK_PLACEMENT_EDIT",
+            });
           }}
           style={{
             padding: "10px",

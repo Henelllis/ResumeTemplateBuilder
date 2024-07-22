@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Box,
   Card,
@@ -6,11 +6,34 @@ import {
   Grid,
   Typography,
   CardMedia,
+  IconButton,
 } from "@mui/material";
 import BlueprintIcon from "@mui/icons-material/Architecture";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { AppContext } from "../store/AppContext";
+import { TemplateBuilderContext } from "../store/TemplateBuilderContext";
+import { SCREEN } from "../types";
 
 const SelectionGrid: React.FC = () => {
+  const { screen, setScreen } = useContext(AppContext);
+  const { templates } = useContext(TemplateBuilderContext);
+
+  let gridItems: any[] = [];
+
+  if (screen === SCREEN.TEMPLATES_TO_EDIT) {
+    gridItems = templates;
+  }
+
+  const handleBackClick = () => {
+    if (screen === SCREEN.TEMPLATES_TO_EDIT) {
+      setScreen(SCREEN.TEMPLATE_ADD_OR_EDIT);
+    }
+
+    if (screen === SCREEN.RESUME_TO_EDIT) {
+      setScreen(SCREEN.RESUME_FILLING_ADD_OR_EDIT);
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -18,10 +41,23 @@ const SelectionGrid: React.FC = () => {
         justifyContent: "center",
         alignItems: "center",
         padding: 3,
+        position: "relative",
       }}
     >
+      <IconButton
+        sx={{
+          position: "absolute",
+          top: 16,
+          left: 16,
+          color: "text.primary",
+        }}
+        onClick={handleBackClick}
+      >
+        <ArrowBackIosIcon />
+      </IconButton>
+
       <Grid container spacing={3} justifyContent="center">
-        {templates.map((template) => (
+        {gridItems.map((template) => (
           <Grid item key={template.id} xs={12} sm={6} md={4} lg={3}>
             <Card
               sx={{
@@ -42,10 +78,10 @@ const SelectionGrid: React.FC = () => {
               </CardMedia>
               <CardContent>
                 <Typography variant="h6" component="div">
-                  {template.title}
+                  {template.name}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  {template.description}
+                  {template.name}
                 </Typography>
               </CardContent>
             </Card>

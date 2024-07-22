@@ -1,7 +1,15 @@
 import React, { useContext } from "react";
-import { Box, Card, CardContent, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  Grid,
+  Typography,
+  IconButton,
+} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { AppContext } from "../store/AppContext";
 import { SCREEN } from "../types";
 
@@ -18,6 +26,12 @@ const AddOrEditScreen: React.FC = () => {
     title = "RESUMES";
   }
 
+  const handleBackClick = () => {
+    // Implement the back navigation logic here
+    // For example, you could set the screen to a previous state or navigate to a different page
+    setScreen(SCREEN.HOME); // Replace with appropriate screen or navigation action
+  };
+
   return (
     <Box
       sx={{
@@ -25,9 +39,22 @@ const AddOrEditScreen: React.FC = () => {
         justifyContent: "center",
         alignItems: "center",
         minHeight: "100vh",
+        position: "relative",
       }}
       flexDirection={"column"}
     >
+      <IconButton
+        sx={{
+          position: "absolute",
+          top: 16,
+          left: 16,
+          color: "text.primary",
+        }}
+        onClick={handleBackClick}
+      >
+        <ArrowBackIosIcon />
+      </IconButton>
+
       <Typography variant="h3" component="div" textAlign={"center"}>
         {title}
       </Typography>
@@ -71,6 +98,15 @@ const AddOrEditScreen: React.FC = () => {
               alignItems: "center",
               boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.5)",
               cursor: "pointer",
+            }}
+            onClick={() => {
+              if (screen === "TEMPLATE_ADD_OR_EDIT") {
+                setScreen(SCREEN.TEMPLATES_TO_EDIT);
+              }
+
+              if (screen === "RESUME_FILLING_ADD_OR_EDIT") {
+                setScreen(SCREEN.RESUME_TO_EDIT);
+              }
             }}
           >
             <CardContent>

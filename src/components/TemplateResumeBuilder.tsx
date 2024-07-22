@@ -5,6 +5,7 @@ import {
   blockStateMap,
   ConfigType,
   Item,
+  SCREEN,
   TemplateLayout,
 } from "../types";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
@@ -13,17 +14,22 @@ import { BlockContext } from "../store/blockContext";
 import BlockTemplateResumePreview from "./BlockTemplateResumePreview";
 import { TemplateBuilderContext } from "../store/TemplateBuilderContext";
 import ConfigControl from "./ConfigControl";
+import { IconButton } from "@mui/material";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import { AppContext } from "../store/AppContext";
 
 const TemplateResumeBuilder: React.FC<{ layout: TemplateLayout }> = ({
   layout,
 }) => {
   const [setRender, setRenderState] = useState(false);
   const { blocks, blockRules, setBlocks } = useContext(BlockContext);
-  const { currentWorkingTemplate, setCurrentWorkingTemplate } = useContext(
-    TemplateBuilderContext
-  );
+  const { mode, setMode, currentWorkingTemplate, setCurrentWorkingTemplate } =
+    useContext(TemplateBuilderContext);
+
+  const { setScreen } = useContext(AppContext);
 
   const [dpi, setDpi] = useState(96); // Default DPI
+
   useEffect(() => {
     console.log("SET RENDER");
     setRenderState(!setRender);
@@ -51,7 +57,6 @@ const TemplateResumeBuilder: React.FC<{ layout: TemplateLayout }> = ({
           content: BlockDescriptor.Experience,
           configType: ConfigType.TIME_SPAN,
         },
-
         {
           id: "5",
           content: BlockDescriptor.Skills,
@@ -169,13 +174,33 @@ const TemplateResumeBuilder: React.FC<{ layout: TemplateLayout }> = ({
     }
   };
 
+  const handleBackClick = () => {
+    // Navigate back or set screen to the previous state
+    setScreen(SCREEN.TEMPLATE_ADD_OR_EDIT); // Replace with appropriate screen or navigation action
+    setMode({
+      mode: "BLOCK_PLACEMENT_EDIT",
+    });
+  };
+
   if (!currentWorkingTemplate) return null;
 
   const style = currentWorkingTemplate[BlockDescriptor.document];
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <div className="app">
+    <div className="app">
+      <IconButton
+        sx={{
+          position: "absolute",
+          top: 16,
+          left: 16,
+          color: "text.primary",
+        }}
+        onClick={handleBackClick}
+      >
+        <ArrowBackIosIcon />
+      </IconButton>
+
+      <DragDropContext onDragEnd={onDragEnd}>
         <div
           className="document-container"
           style={{
@@ -191,8 +216,8 @@ const TemplateResumeBuilder: React.FC<{ layout: TemplateLayout }> = ({
           />
         </div>
         <ConfigControl />
-      </div>
-    </DragDropContext>
+      </DragDropContext>
+    </div>
   );
 };
 

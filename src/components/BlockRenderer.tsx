@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import { BlockDescriptor } from "../types";
+import { ResumeFillingContext } from "../store/ResumeFillingContext";
 
 interface BlockProps {
   content: BlockDescriptor;
@@ -42,25 +43,36 @@ const ContactInfoHeaderBlock: React.FC = () => (
   </div>
 );
 
-const SkillsBlock: React.FC = () => (
-  <div
-    style={{
-      height: "100%",
-      width: "100%",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "flex-start",
-      alignItems: "center",
-    }}
-  >
-    <p>Skills</p>
-    <ul>
-      <li>Leisure</li>
-      <li>Salsa</li>
-      <li>HTML</li>
-    </ul>
-  </div>
-);
+const SkillsBlock: React.FC = () => {
+  const { templateData } = useContext(ResumeFillingContext);
+
+  let skills: Array<string> = [];
+  if (templateData && templateData[BlockDescriptor.Skills]) {
+    skills = templateData[BlockDescriptor.Skills];
+  } else {
+    skills = ["Leisure", "Salsa", "HTML"];
+  }
+
+  return (
+    <div
+      style={{
+        height: "100%",
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "flex-start",
+        alignItems: "center",
+      }}
+    >
+      <h3>Skills</h3>
+      <ul>
+        {skills.map((skill) => (
+          <li>{skill}</li>
+        ))}
+      </ul>
+    </div>
+  );
+};
 
 const EducationBlock: React.FC<{ default: boolean }> = ({
   default: defaultProp,
@@ -142,24 +154,31 @@ const EducationBlock: React.FC<{ default: boolean }> = ({
 const ExperienceBlock: React.FC<{ default: boolean }> = ({
   default: defaultProp,
 }) => {
-  let experiences = [
-    {
-      title: "Software Engineer",
-      establishment: "Google",
-      startDate: "2019",
-      endDate: "2021",
-      description: "Worked on Google Search",
-      location: "Mountain View, CA",
-    },
-    {
-      title: "Software Engineer",
-      establishment: "Facebook",
-      startDate: "2017",
-      endDate: "2019",
-      description: "Worked on Facebook Ads",
-      location: "Menlo Park, CA",
-    },
-  ];
+  const { templateData } = useContext(ResumeFillingContext);
+
+  let experiences = [];
+  if (templateData && templateData[BlockDescriptor.Experience]) {
+    experiences = templateData[BlockDescriptor.Experience];
+  } else {
+    experiences = [
+      {
+        title: "Software Engineer",
+        establishment: "Google",
+        startDate: "2019",
+        endDate: "2021",
+        description: "Worked on Google Search",
+        location: "Mountain View, CA",
+      },
+      {
+        title: "Software Engineer",
+        establishment: "Facebook",
+        startDate: "2017",
+        endDate: "2019",
+        description: "Worked on Facebook Ads",
+        location: "Menlo Park, CA",
+      },
+    ];
+  }
 
   if (defaultProp) {
     // TODO : USE DIRECT STYLES FROM CONTEXT
@@ -178,7 +197,7 @@ const ExperienceBlock: React.FC<{ default: boolean }> = ({
       }}
     >
       <h2>Experiences</h2>
-      {experiences.map((experience) => (
+      {experiences.map((experience: any) => (
         <div style={{ width: "90%" }}>
           <div
             style={{

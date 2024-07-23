@@ -23,6 +23,7 @@ const TimeSpanForm: React.FC<TimeSpanFormProps> = ({
 
   const handleAdd = () => {
     handleInputChange([
+      ...data,
       {
         title: "",
         establishment: "",

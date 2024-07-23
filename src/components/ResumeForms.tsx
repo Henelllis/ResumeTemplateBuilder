@@ -69,7 +69,6 @@ const ResumeForm = () => {
           backgroundColor: "white",
         }}
       >
-        <p>Resume Form</p>
         {blocks.map((block) => {
           const { id, content, configType } = block;
 
@@ -117,7 +116,9 @@ const FormFromConfig = ({
     case "TIME_SPAN":
       return <TimeSpanForm data={data} handleInputChange={handleInputChange} />;
     case "LIST":
-      return <SimpleListForm />;
+      return (
+        <SimpleListForm data={data} handleInputChange={handleInputChange} />
+      );
     case "DETAIL":
       return <SimpleTextForm />;
     case "TEXT":

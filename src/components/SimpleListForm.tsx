@@ -1,33 +1,36 @@
 import React, { useState, ChangeEvent } from "react";
 import { TextField, Button, Grid, Container, Typography } from "@mui/material";
 
-const SimpleListForm: React.FC = () => {
-  const [items, setItems] = useState<string[]>([""]);
+interface SimpleListFormProps {
+  data: Array<string>;
+  handleInputChange: (value: any) => void;
+}
 
+const SimpleListForm: React.FC<SimpleListFormProps> = ({
+  data,
+  handleInputChange,
+}) => {
   const handleChange = (
     index: number,
     event: ChangeEvent<HTMLInputElement>
   ) => {
-    const newItems = [...items];
+    const newItems = [...data];
     newItems[index] = event.target.value;
-    setItems(newItems);
+    handleInputChange(newItems);
   };
 
   const handleAdd = () => {
-    setItems([...items, ""]);
+    handleInputChange([...data, ""]);
   };
 
   const handleRemove = (index: number) => {
-    const newItems = items.filter((_, i) => i !== index);
-    setItems(newItems);
+    const newItems = data.filter((_, i) => i !== index);
+    handleInputChange(newItems);
   };
 
   return (
     <Container>
-      <Typography variant="h4" gutterBottom>
-        Simple List Form
-      </Typography>
-      {items.map((item, index) => (
+      {data.map((item, index) => (
         <Grid container spacing={2} key={index}>
           <Grid item xs={12} sm={6}>
             <TextField

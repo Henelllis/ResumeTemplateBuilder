@@ -17,6 +17,9 @@ import ConfigControl from "./ConfigControl";
 import { IconButton } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { AppContext } from "../store/AppContext";
+import ShadowContainer from "./ResumeForms";
+import CollapsibleCard from "./CollapsibleCard";
+import ResumeForm from "./ResumeForms";
 
 const ResumeScreen: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
   const { blocks, blockRules, setBlocks } = useContext(BlockContext);
@@ -229,7 +232,7 @@ const ResumeScreen: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
         {screen === SCREEN.TEMPLATE_BUILDER ? (
           <ConfigControl />
         ) : (
-          <div>FILL IN RESUME</div>
+          <ResumeForm />
         )}
       </DragDropContext>
     </div>

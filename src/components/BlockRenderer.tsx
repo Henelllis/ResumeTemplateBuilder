@@ -162,6 +162,7 @@ const ExperienceBlock: React.FC<{ default: boolean }> = ({
   ];
 
   if (defaultProp) {
+    // TODO : USE DIRECT STYLES FROM CONTEXT
   }
 
   return (

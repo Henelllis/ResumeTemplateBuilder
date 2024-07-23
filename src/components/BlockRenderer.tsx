@@ -7,7 +7,17 @@ interface BlockProps {
   isHeader: boolean;
 }
 
-const NameBlock: React.FC = () => <p>John Doe</p>;
+const NameBlock: React.FC = () => {
+  const { templateData } = useContext(ResumeFillingContext);
+
+  let name = "John Doe";
+
+  if (templateData && templateData[BlockDescriptor.Name]) {
+    name = templateData[BlockDescriptor.Name];
+  }
+
+  return <h2>{name}</h2>;
+};
 const ContactInfoBlock: React.FC = () => (
   <div
     style={{
@@ -233,7 +243,32 @@ const ExperienceBlock: React.FC<{ default: boolean }> = ({
     </div>
   );
 };
-const DescriptionBlock: React.FC = () => <div>Description Block</div>;
+const DescriptionBlock: React.FC = () => {
+  const { templateData } = useContext(ResumeFillingContext);
+
+  let description =
+    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque blanditiis soluta qui, aspernatur culpa veniam nobis cum enim pariatur quod. Excepturi cupiditate quidem ipsa et minima eum officia maiores voluptates!";
+
+  if (templateData && templateData[BlockDescriptor.Description]) {
+    description = templateData[BlockDescriptor.Description];
+  }
+
+  return (
+    <div
+      style={{
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "flex-start",
+        paddingLeft: "40px",
+      }}
+    >
+      <h2>Mission Statement</h2>
+      <p>{description}</p>
+    </div>
+  );
+};
 const CertificationsBlock: React.FC = () => <div>Certifications Block</div>;
 const ReferencesBlock: React.FC = () => <div>References Block</div>;
 const TitleBlock: React.FC = () => <div>Title Block</div>;

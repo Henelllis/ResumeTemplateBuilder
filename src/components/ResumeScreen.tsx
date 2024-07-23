@@ -20,13 +20,16 @@ import { AppContext } from "../store/AppContext";
 import ShadowContainer from "./ResumeForms";
 import CollapsibleCard from "./CollapsibleCard";
 import ResumeForm from "./ResumeForms";
+import { ResumeFillingContext } from "../store/ResumeFillingContext";
 
 const ResumeScreen: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
   const { blocks, blockRules, setBlocks } = useContext(BlockContext);
   const { mode, setMode, currentWorkingTemplate, setCurrentWorkingTemplate } =
     useContext(TemplateBuilderContext);
+  const { setTemplateData } = useContext(ResumeFillingContext);
 
-  const { screen, setScreen, templateToUse } = useContext(AppContext);
+  const { screen, setScreen, templateToUse, setTemplateToUse } =
+    useContext(AppContext);
 
   const [dpi, setDpi] = useState(96); // Default DPI
 
@@ -191,6 +194,8 @@ const ResumeScreen: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
   const handleBackClick = () => {
     // Navigate back or set screen to the previous state
     setScreen(SCREEN.TEMPLATE_ADD_OR_EDIT); // Replace with appropriate screen or navigation action
+    setTemplateData(null);
+    setTemplateToUse(null);
     setMode({
       mode: "BLOCK_PLACEMENT_EDIT",
     });

@@ -120,9 +120,13 @@ const FormFromConfig = ({
         <SimpleListForm data={data} handleInputChange={handleInputChange} />
       );
     case "DETAIL":
-      return <SimpleTextForm />;
+      return (
+        <SimpleTextForm data={data} handleInputChange={handleInputChange} />
+      );
     case "TEXT":
-      return <SimpleTextForm />;
+      return (
+        <SimpleTextForm data={data} handleInputChange={handleInputChange} />
+      );
     case "CONTACT":
       return <ContactInfoForm />;
     default:

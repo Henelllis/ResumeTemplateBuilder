@@ -25,9 +25,6 @@ const ContactInfoForm: React.FC<ContactInfoFormProps> = ({
     field: keyof ContactInfo,
     event: ChangeEvent<HTMLInputElement>
   ) => {
-    console.log("field", field);
-    console.log("event", event.target ? event.target.value : event);
-
     handleInputChange({
       ...data,
       [field]: event.target.value,

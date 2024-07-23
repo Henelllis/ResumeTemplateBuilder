@@ -4,7 +4,15 @@ import CollapsibleCard from "./CollapsibleCard";
 
 import { TemplateBuilderContext } from "../store/TemplateBuilderContext";
 import { AppContext } from "../store/AppContext";
-import { BlockDescriptor, ConfigType, Entry, Item, Template } from "../types";
+import {
+  BlockDescriptor,
+  ConfigType,
+  Entry,
+  Item,
+  Resume,
+  SCREEN,
+  Template,
+} from "../types";
 import TimeSpanForm from "./TimeSpanForm";
 import { ResumeFillingContext } from "../store/ResumeFillingContext";
 import SimpleListForm from "./SimpleListForm";
@@ -13,8 +21,9 @@ import ContactInfoForm from "./ContactInfoForm";
 
 const ResumeForm = () => {
   const { selectedSection } = useContext(TemplateBuilderContext);
-  const { templateToUse } = useContext(AppContext);
-  const { templateData, setTemplateData } = useContext(ResumeFillingContext);
+  const { templateToUse, setScreen } = useContext(AppContext);
+  const { templateData, setTemplateData, setResumes, resumes } =
+    useContext(ResumeFillingContext);
   const [localTemplateData, setLocalTemplateData] = React.useState<
     Record<BlockDescriptor, any>
   >({
@@ -36,6 +45,12 @@ const ResumeForm = () => {
     [BlockDescriptor.Certifications]: [],
     [BlockDescriptor.References]: [],
   } as Record<BlockDescriptor, any>);
+
+  useEffect(() => {
+    if (templateData) {
+      setLocalTemplateData(templateData);
+    }
+  }, []);
 
   useEffect(() => {
     setTemplateData(localTemplateData);
@@ -67,7 +82,36 @@ const ResumeForm = () => {
         }}
       >
         <button
-          onClick={() => {}}
+          onClick={() => {
+            if (!templateData) {
+              return null;
+            }
+
+            const id = `${templateData[BlockDescriptor.Name]}-1`;
+
+            // Check if the resume already exists and get its index
+            const resumeIndex = resumes.findIndex((resume) => resume.id === id);
+
+            if (resumeIndex !== -1) {
+              const newResumes = [...resumes];
+              newResumes[resumeIndex] = {
+                ...newResumes[resumeIndex],
+                templateData: localTemplateData,
+              };
+              setResumes(newResumes);
+            } else {
+              const resume: Resume = {
+                id: `${templateData[BlockDescriptor.Name]}-1`,
+                name: templateData[BlockDescriptor.Name],
+                template: templateToUse as Template,
+                templateData: localTemplateData,
+              };
+
+              setResumes([...resumes, resume]);
+            }
+
+            setScreen(SCREEN.RESUME_FILLING_ADD_OR_EDIT);
+          }}
           style={{
             padding: "10px",
             borderRadius: "20px",

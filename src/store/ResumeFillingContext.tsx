@@ -3,27 +3,27 @@ import { BlockDescriptor, Resume } from "../types";
 
 export interface ResumeFillingContextValue {
   templateData: Record<BlockDescriptor, any> | null;
-  templates: Resume[];
+  resumes: Resume[];
   setTemplateData: (template: Record<BlockDescriptor, any> | null) => void;
-  setTemplates: (templates: Resume[]) => void;
+  setResumes: (resumes: Resume[]) => void;
 }
 
 export const ResumeFillingContext = createContext<ResumeFillingContextValue>({
   templateData: null,
-  templates: [],
+  resumes: [],
   setTemplateData: () => {},
-  setTemplates: () => {},
+  setResumes: () => {},
 });
 
 function ResumeFillingContextProvider({ children }: { children: any }) {
   const [templateDataValue, setTemplateDataValue] = useState<Omit<
     ResumeFillingContextValue,
-    "setTemplateData" | "setTemplates" | "templates"
+    "setTemplateData" | "setResumes" | "resumes"
   > | null>(null);
 
   const [templatesValue, setTemplatesValue] = useState<Omit<
     ResumeFillingContextValue,
-    "setTemplateData" | "setTemplates" | "templateData"
+    "setTemplateData" | "setResumes" | "templateData"
   > | null>(null);
 
   function setTemplateData(
@@ -32,14 +32,14 @@ function ResumeFillingContextProvider({ children }: { children: any }) {
     setTemplateDataValue({ templateData });
   }
 
-  function setTemplates(templates: Resume[]): void {
-    setTemplatesValue({ templates });
+  function setResumes(resumes: Resume[]): void {
+    setTemplatesValue({ resumes });
   }
 
   const value = {
     templateData: templateDataValue?.templateData ?? null,
-    templates: templatesValue?.templates ?? [],
-    setTemplates,
+    resumes: templatesValue?.resumes ?? [],
+    setResumes,
     setTemplateData,
   };
 

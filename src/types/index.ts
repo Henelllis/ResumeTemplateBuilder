@@ -235,7 +235,7 @@ export interface Template {
 
 export interface Resume {
   id: string; // Unique identifier for the resume
-  userId: string; // Unique identifier for the user
+  name: string; // Unique identifier for the user
   template: Template; // Template used for the resume
   templateData: Record<BlockDescriptor, any>; // Data for each block in the template
 }

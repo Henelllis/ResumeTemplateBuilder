@@ -193,7 +193,12 @@ const ResumeScreen: React.FC<{ layout: TemplateLayout }> = ({ layout }) => {
 
   const handleBackClick = () => {
     // Navigate back or set screen to the previous state
-    setScreen(SCREEN.TEMPLATE_ADD_OR_EDIT); // Replace with appropriate screen or navigation action
+
+    if (screen === SCREEN.TEMPLATE_BUILDER) {
+      setScreen(SCREEN.TEMPLATE_ADD_OR_EDIT); // Replace with appropriate screen or navigation action
+    } else {
+      setScreen(SCREEN.RESUME_FILLING_ADD_OR_EDIT); // Replace with appropriate screen or navigation action
+    }
     setTemplateData(null);
     setTemplateToUse(null);
     setMode({

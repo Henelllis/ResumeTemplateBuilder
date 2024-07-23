@@ -38,15 +38,12 @@ const SectionConfig = ({
         if (currentWorkingTemplate) {
           let stylesInUse = currentWorkingTemplate[blockDescriptor];
 
-          console.log("Styles in use", stylesInUse);
-
           if (
             block.fontSize !== stylesInUse.fontSize ||
             block.fontType !== stylesInUse.fontType ||
             block.colorScheme !== stylesInUse.colorScheme ||
             block.margin !== stylesInUse.margin
           ) {
-            console.log("Setting form values from current working template");
             setFormValues({
               fontSize: stylesInUse.fontSize,
               fontType: stylesInUse.fontType,
@@ -54,8 +51,6 @@ const SectionConfig = ({
               margin: stylesInUse.margin,
             });
           } else {
-            console.log("Setting form values from template to use");
-
             setFormValues({
               fontSize: block.fontSize,
               fontType: block.fontType,

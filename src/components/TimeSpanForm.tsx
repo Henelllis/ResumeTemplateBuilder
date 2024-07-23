@@ -40,8 +40,6 @@ const TimeSpanForm: React.FC<TimeSpanFormProps> = ({
     handleInputChange(newData);
   };
 
-  console.log("THIS IS WHAT THE DATA LOOKS LIKE", data);
-
   return (
     <Container>
       {data.map((item, index) => (

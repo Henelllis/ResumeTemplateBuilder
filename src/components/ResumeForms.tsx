@@ -39,12 +39,9 @@ const ResumeForm = () => {
 
   useEffect(() => {
     setTemplateData(localTemplateData);
-
-    console.log("set up templateData in USE EFFECT", templateData);
   }, [localTemplateData]);
 
   let blocks: Array<Item> = [];
-  console.log("localTemplateData", localTemplateData);
 
   const { headerBlocks, primaryBlocks, secondaryBlocks } =
     templateToUse as Template;
@@ -69,6 +66,40 @@ const ResumeForm = () => {
           backgroundColor: "white",
         }}
       >
+        <button
+          onClick={() => {}}
+          style={{
+            padding: "10px",
+            borderRadius: "20px",
+            width: "200px",
+            marginRight: "60px",
+            border: "none",
+            backgroundColor: "green",
+            boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+            textAlign: "center",
+            color: "white",
+            cursor: "pointer",
+          }}
+        >
+          {"SAVE RESUME"}
+        </button>
+        <button
+          onClick={() => {}}
+          style={{
+            padding: "10px",
+            borderRadius: "20px",
+            width: "200px",
+            border: "none",
+            backgroundColor: "blue",
+            boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+            textAlign: "center",
+            color: "white",
+            cursor: "pointer",
+          }}
+        >
+          {"DOWNLOAD RESUME"}
+        </button>
+
         {blocks.map((block) => {
           const { id, content, configType } = block;
 
@@ -111,7 +142,6 @@ const FormFromConfig = ({
   handleInputChange: (value: any) => void;
   data: any;
 }) => {
-  console.log(configType);
   switch (configType) {
     case "TIME_SPAN":
       return <TimeSpanForm data={data} handleInputChange={handleInputChange} />;
@@ -128,7 +158,9 @@ const FormFromConfig = ({
         <SimpleTextForm data={data} handleInputChange={handleInputChange} />
       );
     case "CONTACT":
-      return <ContactInfoForm />;
+      return (
+        <ContactInfoForm data={data} handleInputChange={handleInputChange} />
+      );
     default:
       return null;
   }

@@ -1,12 +1,5 @@
-import React, { useState, ChangeEvent } from "react";
-import {
-  TextField,
-  Button,
-  Container,
-  Grid,
-  FormControlLabel,
-  Switch,
-} from "@mui/material";
+import React, { ChangeEvent } from "react";
+import { TextField, Container, Grid } from "@mui/material";
 
 interface ContactInfo {
   email: string;
@@ -19,133 +12,80 @@ interface ContactInfo {
   toggleLinkedIn: boolean;
 }
 
-const initialData: ContactInfo = {
-  email: "",
-  phone: "",
-  address: "",
-  linkedIn: "",
-  toggleAddress: true,
-  toggleEmail: true,
-  togglePhone: true,
-  toggleLinkedIn: false,
-};
+interface ContactInfoFormProps {
+  data: ContactInfo;
+  handleInputChange: (value: any) => void;
+}
 
-const ContactInfoForm: React.FC = () => {
-  const [contactInfo, setContactInfo] = useState<ContactInfo>(initialData);
-
-  const handleInputChange = (
+const ContactInfoForm: React.FC<ContactInfoFormProps> = ({
+  data,
+  handleInputChange,
+}) => {
+  const handleLocalInputChange = (
     field: keyof ContactInfo,
     event: ChangeEvent<HTMLInputElement>
   ) => {
-    setContactInfo({
-      ...contactInfo,
+    console.log("field", field);
+    console.log("event", event.target ? event.target.value : event);
+
+    handleInputChange({
+      ...data,
       [field]: event.target.value,
     });
-  };
-
-  const handleToggleChange = (
-    field: keyof ContactInfo,
-    event: ChangeEvent<HTMLInputElement>
-  ) => {
-    setContactInfo({
-      ...contactInfo,
-      [field]: event.target.checked,
-    });
-  };
-
-  const handleSubmit = () => {
-    console.log("Submitted Contact Info:", contactInfo);
-    // Handle form submission logic here
   };
 
   return (
     <Container>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <FormControlLabel
-            control={
-              <Switch
-                checked={contactInfo.toggleEmail}
-                onChange={(e: any) => handleToggleChange("toggleEmail", e)}
-              />
-            }
-            label="Email"
-          />
-          <TextField
-            fullWidth
-            label="Email"
-            value={contactInfo.email}
-            onChange={(e: any) => handleInputChange("email", e)}
-            variant="outlined"
-            margin="normal"
-            disabled={!contactInfo.toggleEmail}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <FormControlLabel
-            control={
-              <Switch
-                checked={contactInfo.togglePhone}
-                onChange={(e: any) => handleToggleChange("togglePhone", e)}
-              />
-            }
-            label="Phone"
-          />
-          <TextField
-            fullWidth
-            label="Phone"
-            value={contactInfo.phone}
-            onChange={(e: any) => handleInputChange("phone", e)}
-            variant="outlined"
-            margin="normal"
-            disabled={!contactInfo.togglePhone}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <FormControlLabel
-            control={
-              <Switch
-                checked={contactInfo.toggleAddress}
-                onChange={(e: any) => handleToggleChange("toggleAddress", e)}
-              />
-            }
-            label="Address"
-          />
-          <TextField
-            fullWidth
-            label="Address"
-            value={contactInfo.address}
-            onChange={(e: any) => handleInputChange("address", e)}
-            variant="outlined"
-            margin="normal"
-            disabled={!contactInfo.toggleAddress}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <FormControlLabel
-            control={
-              <Switch
-                checked={contactInfo.toggleLinkedIn}
-                onChange={(e: any) => handleToggleChange("toggleLinkedIn", e)}
-              />
-            }
-            label="LinkedIn"
-          />
-          <TextField
-            fullWidth
-            label="LinkedIn"
-            value={contactInfo.linkedIn}
-            onChange={(e: any) => handleInputChange("linkedIn", e)}
-            variant="outlined"
-            margin="normal"
-            disabled={!contactInfo.toggleLinkedIn}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <Button variant="contained" color="primary" onClick={handleSubmit}>
-            Submit
-          </Button>
-        </Grid>
+        {data.toggleEmail && (
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Email"
+              value={data.email}
+              onChange={(e: any) => handleLocalInputChange("email", e)}
+              variant="outlined"
+              margin="normal"
+              disabled={!data.toggleEmail}
+            />
+          </Grid>
+        )}
+        {data.togglePhone && (
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Phone"
+              value={data.phone}
+              onChange={(e: any) => handleLocalInputChange("phone", e)}
+              variant="outlined"
+              margin="normal"
+            />
+          </Grid>
+        )}
+        {data.toggleAddress && (
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Address"
+              value={data.address}
+              onChange={(e: any) => handleLocalInputChange("address", e)}
+              variant="outlined"
+              margin="normal"
+            />
+          </Grid>
+        )}
+        {data.toggleLinkedIn && (
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="LinkedIn"
+              value={data.linkedIn}
+              onChange={(e: any) => handleLocalInputChange("linkedIn", e)}
+              variant="outlined"
+              margin="normal"
+            />
+          </Grid>
+        )}
       </Grid>
     </Container>
   );

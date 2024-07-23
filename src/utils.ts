@@ -25,7 +25,7 @@ export const inchesToPixels = (inches: number, dpi: number) => inches * dpi;
 
 export const getPrimaryAndSecondaryColor = (
   colorScheme: string
-): [string, string] => {
+): [string, string] | null => {
   if (colorScheme === "Light") {
     return ["#FFFFFF", "#F0F0F0"]; // Very light shades
   } else if (colorScheme === "Dark") {
@@ -35,6 +35,6 @@ export const getPrimaryAndSecondaryColor = (
   } else if (colorScheme === "Green") {
     return ["#98FB98", "#90EE90"]; // Light green shades
   } else {
-    return ["#A9A9A9", "#D3D3D3"]; // Default to light grey shades
+    return null; // Default to light grey shades
   }
 };

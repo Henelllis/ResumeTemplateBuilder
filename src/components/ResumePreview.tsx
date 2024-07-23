@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import Container from "./Container";
 import { Droppable } from "react-beautiful-dnd";
 import DraggableList from "./DraggableList";
-import { BlockDescriptor, Item } from "../types";
+import { BlockDescriptor, BlockState, Item } from "../types";
 import { getPrimaryAndSecondaryColor, inchesToPixels } from "../utils";
 import { TemplateBuilderContext } from "../store/TemplateBuilderContext";
 import BlockRenderer from "./BlockRenderer";
@@ -43,17 +43,45 @@ function ResumePreview({
     return null;
   }
 
-  const style = currentWorkingTemplate[BlockDescriptor.document];
+  const documentStyle = currentWorkingTemplate[
+    BlockDescriptor.document
+  ] as BlockState;
+  if (!documentStyle) {
+    return null;
+  }
+  const headerStyle = currentWorkingTemplate[BlockDescriptor.header];
+
+  const headerColor = getPrimaryAndSecondaryColor(
+    headerStyle.colorScheme || "Default"
+  )?.[0];
+
+  console.log("headerColor", headerColor);
+  console.log("headerStyle currentWorkingTemplate", headerStyle);
+  const primaryStyle = currentWorkingTemplate[BlockDescriptor.primary];
+
+  const primarySectionColor = getPrimaryAndSecondaryColor(
+    primaryStyle.colorScheme || "Default"
+  )?.[0];
+
+  const secondaryStyle = currentWorkingTemplate[BlockDescriptor.secondary];
+
+  const secondarySectionColor = getPrimaryAndSecondaryColor(
+    secondaryStyle.colorScheme || "Default"
+  )?.[0];
+
   const [primaryColor, secondaryColor] = getPrimaryAndSecondaryColor(
-    style.colorScheme
-  );
+    documentStyle.colorScheme || "Default"
+  ) || ["", ""];
+
+  console.log("secondarySectionColor", secondarySectionColor);
+  console.log("primarySectionColor", primarySectionColor);
 
   return (
     <Container
       widthInPixels={widthInPixels}
       heightInPixels={heightInPixels}
       overrideStyles={{
-        padding: style.margin * -10,
+        padding: documentStyle.margin || 0 * -10,
       }}
     >
       {isBlockMode ? (
@@ -63,8 +91,8 @@ function ResumePreview({
               droppableProps={provided.droppableProps}
               droppableInnerRef={provided.innerRef}
               widthInPixels={widthInPixels}
-              heightInPixels={headerHeightInPixels}
               backgroundColor="lightgrey"
+              heightInPixels={headerHeightInPixels}
               section="header"
             >
               header
@@ -77,9 +105,12 @@ function ResumePreview({
         <Container
           widthInPixels={widthInPixels}
           heightInPixels={headerHeightInPixels}
-          backgroundColor="lightgrey"
           section="header"
-          overrideStyles={{ backgroundColor: primaryColor }}
+          overrideStyles={{
+            backgroundColor: headerColor || primaryColor,
+            fontSize: headerStyle.fontSize || documentStyle.fontSize,
+            fontFamily: headerStyle.fontType || documentStyle.fontType,
+          }}
         >
           {blocks.headerBlockList.map((block) => (
             <BlockRenderer isHeader key={block.id} content={block.content} />
@@ -107,6 +138,7 @@ function ResumePreview({
                   droppableInnerRef={provided.innerRef}
                   widthInPixels={inchesToPixels(primaryWidthInInches, dpi)}
                   heightInPixels={bodyHeightInPixels}
+                  backgroundColor="lightblue"
                   section="primary"
                 >
                   Primary
@@ -121,7 +153,11 @@ function ResumePreview({
               heightInPixels={bodyHeightInPixels}
               backgroundColor="#FAF9F6"
               section="primary"
-              overrideStyles={{ backgroundColor: secondaryColor }}
+              overrideStyles={{
+                backgroundColor: primarySectionColor || secondaryColor,
+                fontSize: primaryStyle.fontSize || documentStyle.fontSize,
+                fontFamily: primaryStyle.fontType || documentStyle.fontType,
+              }}
             >
               {blocks.primaryBlockList.map((block) => (
                 <BlockRenderer
@@ -155,7 +191,11 @@ function ResumePreview({
               heightInPixels={bodyHeightInPixels}
               backgroundColor="wheat"
               section="secondary"
-              overrideStyles={{ backgroundColor: secondaryColor }}
+              overrideStyles={{
+                backgroundColor: secondarySectionColor || secondaryColor,
+                fontSize: secondaryStyle.fontSize || documentStyle.fontSize,
+                fontFamily: secondaryStyle.fontType || documentStyle.fontType,
+              }}
             >
               {blocks.secondaryBlockList.map((block) => (
                 <BlockRenderer

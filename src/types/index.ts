@@ -298,10 +298,10 @@ export const blockConfigMap: Record<BlockDescriptor, ConfigType> = {
 
 // Define the state for each block
 export type BlockState = {
-  fontSize: number;
-  fontType: string;
-  colorScheme: string;
-  margin: number;
+  fontSize?: number;
+  fontType?: string;
+  colorScheme?: string;
+  margin?: number;
 };
 
 // Define a type for the block configuration
@@ -314,84 +314,24 @@ export type BlockConfig = {
 
 // Create the map with BlockDescriptor as the key and BlockState as the value
 export const blockStateMap: Record<BlockDescriptor, BlockState> = {
-  [BlockDescriptor.Name]: {
-    fontSize: 15,
-    fontType: "Arial",
-    colorScheme: "Light",
-    margin: 0,
-  },
-  [BlockDescriptor.ContactInfo]: {
-    fontSize: 15,
-    fontType: "Arial",
-    colorScheme: "Light",
-    margin: 0,
-  },
-  [BlockDescriptor.Education]: {
-    fontSize: 15,
-    fontType: "Arial",
-    colorScheme: "Light",
-    margin: 0,
-  },
-  [BlockDescriptor.Experience]: {
-    fontSize: 15,
-    fontType: "Arial",
-    colorScheme: "Light",
-    margin: 0,
-  },
-  [BlockDescriptor.Skills]: {
-    fontSize: 15,
-    fontType: "Arial",
-    colorScheme: "Light",
-    margin: 0,
-  },
-  [BlockDescriptor.Description]: {
-    fontSize: 15,
-    fontType: "Arial",
-    colorScheme: "Light",
-    margin: 0,
-  },
-  [BlockDescriptor.Certifications]: {
-    fontSize: 15,
-    fontType: "Arial",
-    colorScheme: "Light",
-    margin: 0,
-  },
-  [BlockDescriptor.References]: {
-    fontSize: 15,
-    fontType: "Arial",
-    colorScheme: "Light",
-    margin: 0,
-  },
-  [BlockDescriptor.Title]: {
-    fontSize: 15,
-    fontType: "Arial",
-    colorScheme: "Light",
-    margin: 0,
-  },
-  [BlockDescriptor.header]: {
-    fontSize: 15,
-    fontType: "Helvetica",
-    colorScheme: "Light",
-    margin: 2,
-  },
+  [BlockDescriptor.Name]: {},
+  [BlockDescriptor.ContactInfo]: {},
+  [BlockDescriptor.Education]: {},
+  [BlockDescriptor.Experience]: {},
+  [BlockDescriptor.Skills]: {},
+  [BlockDescriptor.Description]: {},
+  [BlockDescriptor.Certifications]: {},
+  [BlockDescriptor.References]: {},
+  [BlockDescriptor.Title]: {},
+  [BlockDescriptor.header]: {},
   [BlockDescriptor.document]: {
     fontSize: 15,
     fontType: "Arial",
     colorScheme: "Light",
     margin: 0,
   },
-  [BlockDescriptor.primary]: {
-    fontSize: 15,
-    fontType: "Arial",
-    colorScheme: "dark",
-    margin: 0,
-  },
-  [BlockDescriptor.secondary]: {
-    fontSize: 15,
-    fontType: "Arial",
-    colorScheme: "Light",
-    margin: 0,
-  },
+  [BlockDescriptor.primary]: {},
+  [BlockDescriptor.secondary]: {},
 };
 
 export enum SCREEN {
